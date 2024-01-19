@@ -47,6 +47,10 @@ public class Servicio implements Serializable{
 	@JsonBackReference
 	private Collection<Promocion> itemsPromocion=new ArrayList<>();
 	
+	@OneToMany(mappedBy="especialidad", cascade=CascadeType.ALL)
+	@JsonBackReference
+	private Collection<Empleado> itemsEmpleado=new ArrayList<>();
+	
 	
 	public Servicio() {
 		// TODO Auto-generated constructor stub
@@ -126,6 +130,14 @@ public class Servicio implements Serializable{
 
 	public void setItemsPromocion(Collection<Promocion> itemsPromocion) {
 		this.itemsPromocion = itemsPromocion;
+	}
+
+	public Collection<Empleado> getItemsEmpleado() {
+		return itemsEmpleado;
+	}
+
+	public void setItemsEmpleado(Collection<Empleado> itemsEmpleado) {
+		this.itemsEmpleado = itemsEmpleado;
 	}
 
 	
