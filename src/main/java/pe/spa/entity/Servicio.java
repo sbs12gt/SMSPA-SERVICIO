@@ -1,12 +1,18 @@
 package pe.spa.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -36,6 +42,11 @@ public class Servicio implements Serializable{
 	
 	@Column
 	private Integer categoria;
+
+	@OneToMany(mappedBy="servicio", cascade=CascadeType.ALL)
+	@JsonBackReference
+	private Collection<Promocion> itemsPromocion=new ArrayList<>();
+	
 	
 	public Servicio() {
 		// TODO Auto-generated constructor stub
@@ -108,6 +119,16 @@ public class Servicio implements Serializable{
 	public void setCategoria(Integer categoria) {
 		this.categoria = categoria;
 	}
+
+	public Collection<Promocion> getItemsPromocion() {
+		return itemsPromocion;
+	}
+
+	public void setItemsPromocion(Collection<Promocion> itemsPromocion) {
+		this.itemsPromocion = itemsPromocion;
+	}
+
+	
 	
 	
 	
