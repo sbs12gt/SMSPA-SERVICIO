@@ -32,7 +32,7 @@ public class Empleado implements Serializable{
 	private String horario_trabajo;
 	
 	@Column
-	private String url_trabajo;
+	private String url_foto;
 	
 	@Column
 	private String estado;
@@ -41,12 +41,12 @@ public class Empleado implements Serializable{
 		// TODO Auto-generated constructor stub
 	}
 
-	public Empleado(Integer id_empleado, String nombre, String horario_trabajo, String url_trabajo, String estado) {
+	public Empleado(Integer id_empleado, String nombre, String horario_trabajo, String url_foto, String estado) {
 		super();
 		this.id_empleado = id_empleado;
 		this.nombre = nombre;
 		this.horario_trabajo = horario_trabajo;
-		this.url_trabajo = url_trabajo;
+		this.url_foto = url_foto;
 		this.estado = estado;
 	}
 
@@ -82,12 +82,13 @@ public class Empleado implements Serializable{
 		this.horario_trabajo = horario_trabajo;
 	}
 
-	public String getUrl_trabajo() {
-		return url_trabajo;
+
+	public String getUrl_foto() {
+		return url_foto;
 	}
 
-	public void setUrl_trabajo(String url_trabajo) {
-		this.url_trabajo = url_trabajo;
+	public void setUrl_foto(String url_foto) {
+		this.url_foto = url_foto;
 	}
 
 	public String getEstado() {
