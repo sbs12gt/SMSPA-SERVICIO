@@ -30,7 +30,7 @@ public class Promocion implements Serializable{
 	private String descripcion;
 	
 	@Column
-	private String estado;
+	private Boolean estado;
 	
 	@Column
 	private LocalDateTime fecha_inicio;
@@ -55,8 +55,11 @@ public class Promocion implements Serializable{
 		// TODO Auto-generated constructor stub
 	}
 
-	public Promocion(Integer id_promocion, String titulo, String descripcion, String estado, LocalDateTime fecha_inicio,
-			LocalDateTime fecha_fin, String url_imagen_promocion, Integer descuento, String tipo) {
+	
+
+	public Promocion(Integer id_promocion, String titulo, String descripcion, Boolean estado,
+			LocalDateTime fecha_inicio, LocalDateTime fecha_fin, String url_imagen_promocion, Integer descuento,
+			String tipo, Servicio servicio) {
 		super();
 		this.id_promocion = id_promocion;
 		this.titulo = titulo;
@@ -67,7 +70,10 @@ public class Promocion implements Serializable{
 		this.url_imagen_promocion = url_imagen_promocion;
 		this.descuento = descuento;
 		this.tipo = tipo;
+		this.servicio = servicio;
 	}
+
+
 
 	public Integer getId_promocion() {
 		return id_promocion;
@@ -93,13 +99,18 @@ public class Promocion implements Serializable{
 		this.descripcion = descripcion;
 	}
 
-	public String getEstado() {
+	
+	public Boolean getEstado() {
 		return estado;
 	}
 
-	public void setEstado(String estado) {
+
+
+	public void setEstado(Boolean estado) {
 		this.estado = estado;
 	}
+
+
 
 	public LocalDateTime getFecha_inicio() {
 		return fecha_inicio;

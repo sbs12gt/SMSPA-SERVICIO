@@ -34,21 +34,24 @@ public class Empleado implements Serializable{
 	@Column
 	private String url_foto;
 	
-	@Column
-	private String estado;
+	@Column 
+	private Boolean estado;
 	
 	public Empleado() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Empleado(Integer id_empleado, String nombre, String horario_trabajo, String url_foto, String estado) {
+	public Empleado(Integer id_empleado, String nombre, Servicio especialidad, String horario_trabajo, String url_foto,
+			Boolean estado) {
 		super();
 		this.id_empleado = id_empleado;
 		this.nombre = nombre;
+		this.especialidad = especialidad;
 		this.horario_trabajo = horario_trabajo;
 		this.url_foto = url_foto;
 		this.estado = estado;
 	}
+
 
 	public Integer getId_empleado() {
 		return id_empleado;
@@ -91,13 +94,19 @@ public class Empleado implements Serializable{
 		this.url_foto = url_foto;
 	}
 
-	public String getEstado() {
+	
+
+	public Boolean getEstado() {
 		return estado;
 	}
 
-	public void setEstado(String estado) {
+
+
+	public void setEstado(Boolean estado) {
 		this.estado = estado;
 	}
+
+
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;

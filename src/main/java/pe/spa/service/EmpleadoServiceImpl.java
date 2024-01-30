@@ -47,6 +47,12 @@ public class EmpleadoServiceImpl implements EmpleadoService{
 		repository.deleteById(id_empleado);
 		
 	}
+
+	@Override
+	@Transactional(readOnly=true)
+	public Collection<Empleado> findAvailableWorkers() {
+		return repository.findAvailableWorkers();
+	}
 	
 
 }

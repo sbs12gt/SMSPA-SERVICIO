@@ -65,5 +65,41 @@ public class ServicioRestController {
 		}
 		return new ResponseEntity<>("¡No existe el Servicio " + id_servicio + "!", HttpStatus.NOT_FOUND);
 	}
+	
+	@PutMapping("/editar/{id_servicio}")
+	public ResponseEntity<?> editar_PUT(@RequestBody Servicio servicio, @PathVariable Integer id_servicio) {
+		Servicio servicioBD = service.findById(id_servicio);
+		if (servicioBD != null) {
+			servicioBD.setNombre(servicio.getNombre());
+			servicioBD.setDescripcion(servicio.getDescripcion());
+			servicioBD.setDuracion(servicio.getDuracion());
+			servicioBD.setPrecio(servicio.getPrecio());
+			servicioBD.setUrl_imagen(servicio.getUrl_imagen());
+			servicioBD.setCategoria(servicio.getCategoria());
+			service.update(servicioBD);
+			return new ResponseEntity<>("¡Servicio editado!", HttpStatus.OK);
+		}
+		return new ResponseEntity<>("¡No existe el Servicio " + id_servicio + "!", HttpStatus.NOT_FOUND);
+	}
+	
+	@GetMapping("/listarServiciosDisponibles")
+	public ResponseEntity<?> listarServiciosDisponibles_GET() {
+		Collection<Servicio> servicios = service.findAvailableServices();
+		if(servicios.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<>(servicios, HttpStatus.OK);
+	}
+	
+	@GetMapping("/listarServiciosPopulares")
+	public ResponseEntity<?> listarServiciosPopulares_GET() {
+		Collection<Servicio> servicios = service.findPopularServices();
+		if(servicios.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<>(servicios, HttpStatus.OK);
+	}
+	
+	
 
 }

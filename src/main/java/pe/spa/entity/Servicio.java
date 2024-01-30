@@ -3,8 +3,7 @@ package pe.spa.entity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -42,26 +41,34 @@ public class Servicio implements Serializable{
 	
 	@Column
 	private Integer categoria;
+	
+	@Column
+	private Boolean favorito;
+	
+	@Column 
+	private Boolean estado;
 
 	@OneToMany(mappedBy="servicio", cascade=CascadeType.ALL)
-	@JsonBackReference
+	@JsonIgnore
 	private Collection<Promocion> itemsPromocion=new ArrayList<>();
 	
 	@OneToMany(mappedBy="especialidad", cascade=CascadeType.ALL)
-	@JsonBackReference
+	@JsonIgnore
 	private Collection<Empleado> itemsEmpleado=new ArrayList<>();
 	
 	@OneToMany(mappedBy="servicio_reservado", cascade=CascadeType.ALL)
-	@JsonBackReference
+	@JsonIgnore
 	private Collection<Reserva> itemsReserva=new ArrayList<>();
 	
 	
 	public Servicio() {
-		// TODO Auto-generated constructor stub
+		
 	}
 
+	
+
 	public Servicio(Integer id_servicio, String nombre, String descripcion, Integer duracion, Double precio,
-			String url_imagen, Integer categoria) {
+			String url_imagen, Integer categoria, Boolean favorito, Boolean estado) {
 		super();
 		this.id_servicio = id_servicio;
 		this.nombre = nombre;
@@ -70,7 +77,11 @@ public class Servicio implements Serializable{
 		this.precio = precio;
 		this.url_imagen = url_imagen;
 		this.categoria = categoria;
+		this.favorito = favorito;
+		this.estado = estado;
 	}
+
+
 
 	public Integer getId_servicio() {
 		return id_servicio;
@@ -127,6 +138,42 @@ public class Servicio implements Serializable{
 	public void setCategoria(Integer categoria) {
 		this.categoria = categoria;
 	}
+	
+	public Boolean getFavorito() {
+		return favorito;
+	}
+
+
+
+	public void setFavorito(Boolean favorito) {
+		this.favorito = favorito;
+	}
+
+
+
+	public Boolean getEstado() {
+		return estado;
+	}
+
+
+
+	public void setEstado(Boolean estado) {
+		this.estado = estado;
+	}
+
+
+
+	public Collection<Reserva> getItemsReserva() {
+		return itemsReserva;
+	}
+
+
+
+	public void setItemsReserva(Collection<Reserva> itemsReserva) {
+		this.itemsReserva = itemsReserva;
+	}
+
+
 
 	public Collection<Promocion> getItemsPromocion() {
 		return itemsPromocion;

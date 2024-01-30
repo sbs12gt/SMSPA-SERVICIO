@@ -44,4 +44,16 @@ public class ServicioServiceImpl implements ServicioService {
 		repository.deleteById(id_servicio);
 		
 	}
+
+	@Override
+	@Transactional(readOnly=true)
+	public Collection<Servicio> findAvailableServices() {
+		return repository.findAvailableServices();
+	}
+
+	@Override
+	@Transactional(readOnly=true)
+	public Collection<Servicio> findPopularServices() {
+		return repository.findPopularServices();
+	}
 }

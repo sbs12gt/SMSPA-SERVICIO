@@ -60,4 +60,13 @@ public class EmpleadoRestController {
 		}
 		return new ResponseEntity<>("¡No existe el Empleado " + id_empleado + "!", HttpStatus.NOT_FOUND);
 	}
+	
+	@GetMapping("/listarEmpleadosDisponibles")
+	public ResponseEntity<?> listarEmpleadosDisponibles_GET() {
+		Collection<Empleado> empleados = service.findAvailableWorkers();
+		if(empleados.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<>(empleados, HttpStatus.OK);
+	}
 }

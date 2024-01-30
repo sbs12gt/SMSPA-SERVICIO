@@ -11,5 +11,9 @@ public interface ServicioService {
 	public abstract Servicio findById(Integer id_servicio);
 	public abstract void update(Servicio servicio);
 	public abstract void delete(Integer id_servicio);
+	
+	//
+	public abstract Collection<Servicio> findAvailableServices();
+	public abstract Collection<Servicio> findPopularServices();
 
 }
