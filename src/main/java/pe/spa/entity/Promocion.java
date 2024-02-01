@@ -12,10 +12,9 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
-
 @Entity
 @Table(name="promociones")
-public class Promocion implements Serializable{
+public class Promocion implements Serializable {
 	
 	private static final long serialVersionUID=1L;
 	
@@ -39,7 +38,7 @@ public class Promocion implements Serializable{
 	private LocalDateTime fecha_fin;
 	
 	@Column
-	private String url_imagen_promocion;
+	private String url_imagen;
 	
 	@Column
 	private Integer descuento;
@@ -48,32 +47,25 @@ public class Promocion implements Serializable{
 	private String tipo;
 	
 	@ManyToOne
-	@JoinColumn(name="servicio_id",nullable=false)
-	private Servicio servicio;
+	@JoinColumn(name="servicio_promocion", nullable=false)
+	private Servicio id_servicio;
 
-	public Promocion() {
-		// TODO Auto-generated constructor stub
-	}
+	public Promocion() { }
 
-	
-
-	public Promocion(Integer id_promocion, String titulo, String descripcion, Boolean estado,
-			LocalDateTime fecha_inicio, LocalDateTime fecha_fin, String url_imagen_promocion, Integer descuento,
-			String tipo, Servicio servicio) {
+	public Promocion(String titulo, String descripcion, Boolean estado,
+			LocalDateTime fecha_inicio, LocalDateTime fecha_fin, String url_imagen, Integer descuento,
+			String tipo, Servicio id_servicio) {
 		super();
-		this.id_promocion = id_promocion;
 		this.titulo = titulo;
 		this.descripcion = descripcion;
 		this.estado = estado;
 		this.fecha_inicio = fecha_inicio;
 		this.fecha_fin = fecha_fin;
-		this.url_imagen_promocion = url_imagen_promocion;
+		this.url_imagen = url_imagen;
 		this.descuento = descuento;
 		this.tipo = tipo;
-		this.servicio = servicio;
+		this.id_servicio = id_servicio;
 	}
-
-
 
 	public Integer getId_promocion() {
 		return id_promocion;
@@ -99,18 +91,13 @@ public class Promocion implements Serializable{
 		this.descripcion = descripcion;
 	}
 
-	
 	public Boolean getEstado() {
 		return estado;
 	}
 
-
-
 	public void setEstado(Boolean estado) {
 		this.estado = estado;
 	}
-
-
 
 	public LocalDateTime getFecha_inicio() {
 		return fecha_inicio;
@@ -128,12 +115,12 @@ public class Promocion implements Serializable{
 		this.fecha_fin = fecha_fin;
 	}
 
-	public String getUrl_imagen_promocion() {
-		return url_imagen_promocion;
+	public String getUrl_imagen() {
+		return url_imagen;
 	}
 
-	public void setUrl_imagen_promocion(String url_imagen_promocion) {
-		this.url_imagen_promocion = url_imagen_promocion;
+	public void setUrl_imagen(String url_imagen) {
+		this.url_imagen = url_imagen;
 	}
 
 	public Integer getDescuento() {
@@ -152,14 +139,12 @@ public class Promocion implements Serializable{
 		this.tipo = tipo;
 	}
 
-	public Servicio getServicio() {
-		return servicio;
+	public Servicio getId_servicio() {
+		return id_servicio;
 	}
 
-	public void setServicio(Servicio servicio) {
-		this.servicio = servicio;
+	public void setId_servicio(Servicio id_servicio) {
+		this.id_servicio = id_servicio;
 	}
 
-	
-	
 }

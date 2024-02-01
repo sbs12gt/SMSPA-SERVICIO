@@ -10,8 +10,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="instalacion")
-public class Instalacion implements Serializable{
+@Table(name="instalaciones")
+public class Instalacion implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -20,7 +20,7 @@ public class Instalacion implements Serializable{
 	private Integer id_instalacion;
 	
 	@Column
-	private String nombre;
+	private String rotulo;
 	
 	@Column
 	private String descripcion;
@@ -28,14 +28,11 @@ public class Instalacion implements Serializable{
 	@Column
 	private String estado;
 	
-	public Instalacion() {
-		// TODO Auto-generated constructor stub
-	}
+	public Instalacion() { }
 
-	public Instalacion(Integer id_instalacion, String nombre, String descripcion, String estado) {
+	public Instalacion(String rotulo, String descripcion, String estado) {
 		super();
-		this.id_instalacion = id_instalacion;
-		this.nombre = nombre;
+		this.rotulo = rotulo;
 		this.descripcion = descripcion;
 		this.estado = estado;
 	}
@@ -48,12 +45,12 @@ public class Instalacion implements Serializable{
 		this.id_instalacion = id_instalacion;
 	}
 
-	public String getNombre() {
-		return nombre;
+	public String getRotulo() {
+		return rotulo;
 	}
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setRotulo(String rotulo) {
+		this.rotulo = rotulo;
 	}
 
 	public String getDescripcion() {
@@ -71,13 +68,5 @@ public class Instalacion implements Serializable{
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-	
-	
-	
-	
 
 }

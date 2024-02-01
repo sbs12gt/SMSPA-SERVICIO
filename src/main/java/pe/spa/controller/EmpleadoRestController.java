@@ -10,15 +10,16 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import pe.spa.entity.Empleado;
 import pe.spa.service.EmpleadoService;
 
-
 @RestController
-@RequestMapping("/empleado")
+@RequestMapping("/empleados")
 @CrossOrigin(origins="*")
 public class EmpleadoRestController {
 
@@ -48,8 +49,20 @@ public class EmpleadoRestController {
 	    }
 	    return new ResponseEntity<>(empleado, HttpStatus.OK);
 	}
-	
-	
+
+	@PutMapping("/editar/{id_empleado}")
+	public ResponseEntity<?> editar_PUT(@RequestBody Empleado empleado, @PathVariable Integer id_empleado) {
+		Empleado empleadoBD = service.findById(id_empleado);
+		if (empleadoBD != null) {
+			empleadoBD.setApellidos(empleado.getApellidos());
+			empleadoBD.setEstado(empleado.getEstado());
+			empleadoBD.setNombres(empleado.getNombres());
+			empleadoBD.setUrl_foto(empleado.getUrl_foto());
+			service.update(empleadoBD);
+			return new ResponseEntity<>("¡Empleado editado!", HttpStatus.OK);
+		}
+		return new ResponseEntity<>("¡No existe el empleado " + id_empleado + "!", HttpStatus.NOT_FOUND);
+	}
 	
 	@DeleteMapping("/borrar/{id_empleado}")
 	public ResponseEntity<?> borrar_DELETE(@PathVariable Integer id_empleado) {
@@ -58,8 +71,10 @@ public class EmpleadoRestController {
 			service.delete(id_empleado);
 			return new ResponseEntity<>("¡Empleado borrado!", HttpStatus.OK);
 		}
-		return new ResponseEntity<>("¡No existe el Empleado " + id_empleado + "!", HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>("¡No existe el empleado " + id_empleado + "!", HttpStatus.NOT_FOUND);
 	}
+
+	//
 	
 	@GetMapping("/listarEmpleadosDisponibles")
 	public ResponseEntity<?> listarEmpleadosDisponibles_GET() {
@@ -69,4 +84,5 @@ public class EmpleadoRestController {
 		}
 		return new ResponseEntity<>(empleados, HttpStatus.OK);
 	}
+
 }

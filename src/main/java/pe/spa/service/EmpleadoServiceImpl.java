@@ -10,7 +10,7 @@ import pe.spa.entity.Empleado;
 import pe.spa.repository.EmpleadoRepository;
 
 @Service
-public class EmpleadoServiceImpl implements EmpleadoService{
+public class EmpleadoServiceImpl implements EmpleadoService {
 	
 	@Autowired
 	private EmpleadoRepository repository;
@@ -19,7 +19,6 @@ public class EmpleadoServiceImpl implements EmpleadoService{
 	@Transactional
 	public void insert(Empleado empleado) {
 		repository.save(empleado);
-		
 	}
 
 	@Override
@@ -37,8 +36,7 @@ public class EmpleadoServiceImpl implements EmpleadoService{
 	@Override
 	@Transactional
 	public void update(Empleado empleado) {
-		repository.save(empleado);
-		
+		repository.save(empleado);	
 	}
 
 	@Override
@@ -48,11 +46,12 @@ public class EmpleadoServiceImpl implements EmpleadoService{
 		
 	}
 
+	//
+
 	@Override
 	@Transactional(readOnly=true)
 	public Collection<Empleado> findAvailableWorkers() {
 		return repository.findAvailableWorkers();
 	}
-	
 
 }

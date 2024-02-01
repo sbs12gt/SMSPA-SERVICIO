@@ -4,6 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import pe.spa.entity.Reserva;
 
-public interface ReservaRepository extends JpaRepository<Reserva,Integer>{
+public interface ReservaRepository extends JpaRepository<Reserva,Integer> {
 
 }

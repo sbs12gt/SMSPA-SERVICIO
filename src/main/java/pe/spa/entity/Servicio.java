@@ -15,8 +15,8 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="servicio")
-public class Servicio implements Serializable{
+@Table(name="servicios")
+public class Servicio implements Serializable {
 	
 	private static final long serialVersionUID=1L;
 	
@@ -40,7 +40,7 @@ public class Servicio implements Serializable{
 	private String url_imagen;
 	
 	@Column
-	private Integer categoria;
+	private String categoria;
 	
 	@Column
 	private Boolean favorito;
@@ -48,29 +48,23 @@ public class Servicio implements Serializable{
 	@Column 
 	private Boolean estado;
 
-	@OneToMany(mappedBy="servicio", cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="servicio_promocion", cascade=CascadeType.ALL)
 	@JsonIgnore
 	private Collection<Promocion> itemsPromocion=new ArrayList<>();
 	
-	@OneToMany(mappedBy="especialidad", cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="servicio_empleado", cascade=CascadeType.ALL)
 	@JsonIgnore
 	private Collection<Empleado> itemsEmpleado=new ArrayList<>();
 	
-	@OneToMany(mappedBy="servicio_reservado", cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="servicio_reserva", cascade=CascadeType.ALL)
 	@JsonIgnore
 	private Collection<Reserva> itemsReserva=new ArrayList<>();
 	
-	
-	public Servicio() {
-		
-	}
+	public Servicio() {	}
 
-	
-
-	public Servicio(Integer id_servicio, String nombre, String descripcion, Integer duracion, Double precio,
-			String url_imagen, Integer categoria, Boolean favorito, Boolean estado) {
+	public Servicio(String nombre, String descripcion, Integer duracion, Double precio,
+			String url_imagen, String categoria, Boolean favorito, Boolean estado) {
 		super();
-		this.id_servicio = id_servicio;
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 		this.duracion = duracion;
@@ -80,8 +74,6 @@ public class Servicio implements Serializable{
 		this.favorito = favorito;
 		this.estado = estado;
 	}
-
-
 
 	public Integer getId_servicio() {
 		return id_servicio;
@@ -131,11 +123,11 @@ public class Servicio implements Serializable{
 		this.url_imagen = url_imagen;
 	}
 
-	public Integer getCategoria() {
+	public String getCategoria() {
 		return categoria;
 	}
 
-	public void setCategoria(Integer categoria) {
+	public void setCategoria(String categoria) {
 		this.categoria = categoria;
 	}
 	
@@ -143,37 +135,25 @@ public class Servicio implements Serializable{
 		return favorito;
 	}
 
-
-
 	public void setFavorito(Boolean favorito) {
 		this.favorito = favorito;
 	}
-
-
 
 	public Boolean getEstado() {
 		return estado;
 	}
 
-
-
 	public void setEstado(Boolean estado) {
 		this.estado = estado;
 	}
-
-
 
 	public Collection<Reserva> getItemsReserva() {
 		return itemsReserva;
 	}
 
-
-
 	public void setItemsReserva(Collection<Reserva> itemsReserva) {
 		this.itemsReserva = itemsReserva;
 	}
-
-
 
 	public Collection<Promocion> getItemsPromocion() {
 		return itemsPromocion;
@@ -191,11 +171,4 @@ public class Servicio implements Serializable{
 		this.itemsEmpleado = itemsEmpleado;
 	}
 
-	
-	
-	
-	
-	
-
 }
-

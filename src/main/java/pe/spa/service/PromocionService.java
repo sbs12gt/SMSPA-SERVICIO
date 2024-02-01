@@ -11,4 +11,5 @@ public interface PromocionService {
 	public abstract Promocion findById(Integer id_promocion);
 	public abstract void update(Promocion promocion);
 	public abstract void delete(Integer id_promocion);
+	
 }

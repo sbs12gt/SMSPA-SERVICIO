@@ -1,5 +1,7 @@
 package pe.spa.service;
+
 import java.util.Collection;
+
 import pe.spa.entity.Reserva;
 
 public interface ReservaService {

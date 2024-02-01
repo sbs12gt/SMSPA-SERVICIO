@@ -10,7 +10,7 @@ import pe.spa.entity.Promocion;
 import pe.spa.repository.PromocionRepository;
 
 @Service
-public class PromocionServiceImpl implements PromocionService{
+public class PromocionServiceImpl implements PromocionService {
 	
 	@Autowired
 	private PromocionRepository repository;
@@ -19,7 +19,6 @@ public class PromocionServiceImpl implements PromocionService{
 	@Transactional
 	public void insert(Promocion promocion) {
 		repository.save(promocion);
-		
 	}
 
 	@Override
@@ -38,14 +37,12 @@ public class PromocionServiceImpl implements PromocionService{
 	@Transactional
 	public void update(Promocion promocion) {
 		repository.save(promocion);
-		
 	}
 
 	@Override
 	@Transactional
 	public void delete(Integer id_promocion) {
 		repository.deleteById(id_promocion);
-		
 	}
 
 }

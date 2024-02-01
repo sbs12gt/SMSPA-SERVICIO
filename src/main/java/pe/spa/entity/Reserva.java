@@ -14,7 +14,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name="reservas")
-public class Reserva implements Serializable{
+public class Reserva implements Serializable {
 	
 	private static final long serialVersionUID=1L;
 	
@@ -23,8 +23,8 @@ public class Reserva implements Serializable{
 	private Integer id_reserva;
 	
 	@ManyToOne
-	@JoinColumn(name="servicio",nullable=false)
-	private Servicio servicio_reservado;
+	@JoinColumn(name="servicio_reserva", nullable=false)
+	private Servicio id_servicio;
 	
 	@Column
 	private LocalDateTime fecha;
@@ -36,45 +36,38 @@ public class Reserva implements Serializable{
 	private String correo_cliente;
 	
 	@Column
-	private String nombre_cliente;
+	private String nombres_cliente;
 	
 	@Column
-	private String apellido_cliente;
+	private String apellidos_cliente;
 	
 	@Column
 	private String telefono_cliente;
 	
 	@ManyToOne
-	@JoinColumn(name="empleado",nullable=false)
-	private Empleado empleado_reservado;
+	@JoinColumn(name="empleado_reserva", nullable=false)
+	private Empleado id_empleado;
 	
 	@ManyToOne
-	@JoinColumn(name="instalacion",nullable=false)
-	private Instalacion instalacion_reservada;
+	@JoinColumn(name="instalacion_reserva", nullable=false)
+	private Instalacion id_instalacion;
 	
 	@ManyToOne
-	@JoinColumn(name="promocion",nullable=false)
-	private Promocion promocion_reservada;
+	@JoinColumn(name="promocion_reserva", nullable=false)
+	private Promocion id_promocion;
 	
-	public Reserva() {
-		// TODO Auto-generated constructor stub
-	}
+	public Reserva() { }
 
-	
-
-	public Reserva(Integer id_reserva, LocalDateTime fecha, LocalDateTime hora, String correo_cliente,
-			String nombre_cliente, String apellido_cliente, String telefono_cliente) {
+	public Reserva(LocalDateTime fecha, LocalDateTime hora, String correo_cliente,
+			String nombres_cliente, String apellidos_cliente, String telefono_cliente) {
 		super();
-		this.id_reserva = id_reserva;
 		this.fecha = fecha;
 		this.hora = hora;
 		this.correo_cliente = correo_cliente;
-		this.nombre_cliente = nombre_cliente;
-		this.apellido_cliente = apellido_cliente;
+		this.nombres_cliente = nombres_cliente;
+		this.apellidos_cliente = apellidos_cliente;
 		this.telefono_cliente = telefono_cliente;
 	}
-
-
 
 	public Integer getId_reserva() {
 		return id_reserva;
@@ -82,14 +75,6 @@ public class Reserva implements Serializable{
 
 	public void setId_reserva(Integer id_reserva) {
 		this.id_reserva = id_reserva;
-	}
-
-	public Servicio getServicio_reservado() {
-		return servicio_reservado;
-	}
-
-	public void setServicio_reservado(Servicio servicio_reservado) {
-		this.servicio_reservado = servicio_reservado;
 	}
 
 	public LocalDateTime getFecha() {
@@ -108,34 +93,28 @@ public class Reserva implements Serializable{
 		this.hora = hora;
 	}
 
-	
-
 	public String getCorreo_cliente() {
 		return correo_cliente;
 	}
-
-
 
 	public void setCorreo_cliente(String correo_cliente) {
 		this.correo_cliente = correo_cliente;
 	}
 
-
-
-	public String getNombre_cliente() {
-		return nombre_cliente;
+	public String getNombres_cliente() {
+		return nombres_cliente;
 	}
 
-	public void setNombre_cliente(String nombre_cliente) {
-		this.nombre_cliente = nombre_cliente;
+	public void setNombres_cliente(String nombres_cliente) {
+		this.nombres_cliente = nombres_cliente;
 	}
 
-	public String getApellido_cliente() {
-		return apellido_cliente;
+	public String getApellidos_cliente() {
+		return apellidos_cliente;
 	}
 
-	public void setApellido_cliente(String apellido_cliente) {
-		this.apellido_cliente = apellido_cliente;
+	public void setApellidos_cliente(String apellidos_cliente) {
+		this.apellidos_cliente = apellidos_cliente;
 	}
 
 	public String getTelefono_cliente() {
@@ -146,33 +125,36 @@ public class Reserva implements Serializable{
 		this.telefono_cliente = telefono_cliente;
 	}
 
-	public Empleado getEmpleado_reservado() {
-		return empleado_reservado;
+	public Servicio getId_servicio() {
+		return id_servicio;
 	}
 
-	public void setEmpleado_reservado(Empleado empleado_reservado) {
-		this.empleado_reservado = empleado_reservado;
+	public void setId_servicio(Servicio id_servicio) {
+		this.id_servicio = id_servicio;
 	}
 
-	public Instalacion getInstalacion_reservada() {
-		return instalacion_reservada;
+	public Empleado getId_empleado() {
+		return id_empleado;
 	}
 
-	public void setInstalacion_reservada(Instalacion instalacion_reservada) {
-		this.instalacion_reservada = instalacion_reservada;
+	public void setId_empleado(Empleado id_empleado) {
+		this.id_empleado = id_empleado;
 	}
 
-	public Promocion getPromocion_reservada() {
-		return promocion_reservada;
+	public Instalacion getId_instalacion() {
+		return id_instalacion;
 	}
 
-	public void setPromocion_reservada(Promocion promocion_reservada) {
-		this.promocion_reservada = promocion_reservada;
+	public void setId_instalacion(Instalacion id_instalacion) {
+		this.id_instalacion = id_instalacion;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	public Promocion getId_promocion() {
+		return id_promocion;
 	}
-	
-	
+
+	public void setId_promocion(Promocion id_promocion) {
+		this.id_promocion = id_promocion;
+	}
+
 }

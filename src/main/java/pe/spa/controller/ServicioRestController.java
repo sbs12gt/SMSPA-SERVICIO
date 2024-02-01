@@ -19,16 +19,12 @@ import pe.spa.entity.Servicio;
 import pe.spa.service.ServicioService;
 
 @RestController
-@RequestMapping("/servicio")
+@RequestMapping("/servicios")
 @CrossOrigin(origins="*")
 public class ServicioRestController {
 	
 	@Autowired
 	private ServicioService service;
-	
-	public ServicioRestController() {
-		// TODO Auto-generated constructor stub
-	}
 	
 	@PostMapping("/registrar")
 	public ResponseEntity<?> registrar_POST(@RequestBody Servicio servicio) {
@@ -54,22 +50,12 @@ public class ServicioRestController {
 	    return new ResponseEntity<>(servicio, HttpStatus.OK);
 	}
 	
-	
-	
-	@DeleteMapping("/borrar/{id_servicio}")
-	public ResponseEntity<?> borrar_DELETE(@PathVariable Integer id_servicio) {
-		Servicio servicioBD = service.findById(id_servicio);
-		if (servicioBD != null) {		
-			service.delete(id_servicio);
-			return new ResponseEntity<>("¡Servicio borrado!", HttpStatus.OK);
-		}
-		return new ResponseEntity<>("¡No existe el Servicio " + id_servicio + "!", HttpStatus.NOT_FOUND);
-	}
-	
 	@PutMapping("/editar/{id_servicio}")
 	public ResponseEntity<?> editar_PUT(@RequestBody Servicio servicio, @PathVariable Integer id_servicio) {
 		Servicio servicioBD = service.findById(id_servicio);
 		if (servicioBD != null) {
+			servicioBD.setEstado(servicio.getEstado());
+			servicioBD.setFavorito(servicio.getFavorito());
 			servicioBD.setNombre(servicio.getNombre());
 			servicioBD.setDescripcion(servicio.getDescripcion());
 			servicioBD.setDuracion(servicio.getDuracion());
@@ -79,13 +65,25 @@ public class ServicioRestController {
 			service.update(servicioBD);
 			return new ResponseEntity<>("¡Servicio editado!", HttpStatus.OK);
 		}
-		return new ResponseEntity<>("¡No existe el Servicio " + id_servicio + "!", HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>("¡No existe el servicio " + id_servicio + "!", HttpStatus.NOT_FOUND);
 	}
+	
+	@DeleteMapping("/borrar/{id_servicio}")
+	public ResponseEntity<?> borrar_DELETE(@PathVariable Integer id_servicio) {
+		Servicio servicioBD = service.findById(id_servicio);
+		if (servicioBD != null) {		
+			service.delete(id_servicio);
+			return new ResponseEntity<>("¡Servicio borrado!", HttpStatus.OK);
+		}
+		return new ResponseEntity<>("¡No existe el servicio " + id_servicio + "!", HttpStatus.NOT_FOUND);
+	}
+	
+	//
 	
 	@GetMapping("/listarServiciosDisponibles")
 	public ResponseEntity<?> listarServiciosDisponibles_GET() {
 		Collection<Servicio> servicios = service.findAvailableServices();
-		if(servicios.isEmpty()) {
+		if (servicios.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<>(servicios, HttpStatus.OK);
@@ -94,12 +92,10 @@ public class ServicioRestController {
 	@GetMapping("/listarServiciosPopulares")
 	public ResponseEntity<?> listarServiciosPopulares_GET() {
 		Collection<Servicio> servicios = service.findPopularServices();
-		if(servicios.isEmpty()) {
+		if (servicios.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<>(servicios, HttpStatus.OK);
 	}
-	
-	
 
 }

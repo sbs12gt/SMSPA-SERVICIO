@@ -10,14 +10,16 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import pe.spa.entity.Promocion;
 import pe.spa.service.PromocionService;
 
 @RestController
-@RequestMapping("/promocion")
+@RequestMapping("/promociones")
 @CrossOrigin(origins="*")
 public class PromocionRestController {
 	
@@ -27,7 +29,7 @@ public class PromocionRestController {
 	@PostMapping("/registrar")
 	public ResponseEntity<?> registrar_POST(@RequestBody Promocion promocion) {
 		service.insert(promocion);		
-		return new ResponseEntity<>("¡Promocion registrado!", HttpStatus.CREATED);
+		return new ResponseEntity<>("¡Promoción registrada!", HttpStatus.CREATED);
 	}
 	
 	@GetMapping("/listar")
@@ -43,22 +45,38 @@ public class PromocionRestController {
 	public ResponseEntity<?> buscar_GET(@PathVariable Integer id_promocion) {
 		Promocion promocion = service.findById(id_promocion);
 	    if (promocion == null) {
-	    	return new ResponseEntity<>("¡No existe la promocion " + id_promocion + "!", HttpStatus.NOT_FOUND);
+	    	return new ResponseEntity<>("¡No existe la promoción " + id_promocion + "!", HttpStatus.NOT_FOUND);
 	    }
 	    return new ResponseEntity<>(promocion, HttpStatus.OK);
 	}
 	
-	
+	@PutMapping("/editar/{id_promocion}")
+	public ResponseEntity<?> editar_PUT(@RequestBody Promocion promocion, @PathVariable Integer id_promocion) {
+		Promocion promocionBD = service.findById(id_promocion);
+		if (promocionBD != null) {
+			promocionBD.setDescripcion(promocion.getDescripcion());
+			promocionBD.setDescuento(promocion.getDescuento());
+			promocionBD.setEstado(promocion.getEstado());
+			promocionBD.setFecha_fin(promocion.getFecha_fin());
+			promocionBD.setFecha_inicio(promocion.getFecha_inicio());
+			promocionBD.setId_servicio(promocion.getId_servicio());
+			promocionBD.setTipo(promocion.getTipo());
+			promocionBD.setTitulo(promocion.getTitulo());
+			promocionBD.setUrl_imagen(promocion.getUrl_imagen());
+			service.update(promocionBD);
+			return new ResponseEntity<>("¡Promoción editada!", HttpStatus.OK);
+		}
+		return new ResponseEntity<>("¡No existe la promoción " + id_promocion + "!", HttpStatus.NOT_FOUND);
+	}
 	
 	@DeleteMapping("/borrar/{id_promocion}")
 	public ResponseEntity<?> borrar_DELETE(@PathVariable Integer id_promocion) {
 		Promocion promocionBD = service.findById(id_promocion);
 		if (promocionBD != null) {		
 			service.delete(id_promocion);
-			return new ResponseEntity<>("¡Promocion borrada!", HttpStatus.OK);
+			return new ResponseEntity<>("¡Promoción borrada!", HttpStatus.OK);
 		}
-		return new ResponseEntity<>("¡No existe la Promocion " + id_promocion + "!", HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>("¡No existe la promoción " + id_promocion + "!", HttpStatus.NOT_FOUND);
 	}
 	
-
 }

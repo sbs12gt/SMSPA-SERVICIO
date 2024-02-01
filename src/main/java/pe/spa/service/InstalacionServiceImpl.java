@@ -10,17 +10,15 @@ import pe.spa.entity.Instalacion;
 import pe.spa.repository.InstalacionRepository;
 
 @Service
-public class InstalacionServiceImpl implements InstalacionService{
+public class InstalacionServiceImpl implements InstalacionService {
 
 	@Autowired
 	private InstalacionRepository repository;
-	
 	
 	@Override
 	@Transactional
 	public void insert(Instalacion instalacion) {
 		repository.save(instalacion);
-		
 	}
 
 	@Override
@@ -38,15 +36,13 @@ public class InstalacionServiceImpl implements InstalacionService{
 	@Override
 	@Transactional
 	public void update(Instalacion instalacion) {
-		repository.save(instalacion);
-		
+		repository.save(instalacion);	
 	}
 
 	@Override
 	@Transactional
 	public void delete(Integer id_instalacion) {
 		repository.deleteById(id_instalacion);
-		
 	}
 
 }

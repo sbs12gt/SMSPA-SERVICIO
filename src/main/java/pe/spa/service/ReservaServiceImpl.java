@@ -10,8 +10,7 @@ import pe.spa.entity.Reserva;
 import pe.spa.repository.ReservaRepository;
 
 @Service
-public class ReservaServiceImpl implements ReservaService{
-	
+public class ReservaServiceImpl implements ReservaService {
 	
 	@Autowired
 	private ReservaRepository repository;
@@ -20,7 +19,6 @@ public class ReservaServiceImpl implements ReservaService{
 	@Transactional
 	public void insert(Reserva reserva) {
 		repository.save(reserva);
-		
 	}
 
 	@Override
@@ -39,15 +37,12 @@ public class ReservaServiceImpl implements ReservaService{
 	@Transactional
 	public void update(Reserva reserva) {
 		repository.save(reserva);
-		
 	}
 
 	@Override
 	@Transactional
 	public void delete(Integer id_reserva) {
 		repository.deleteById(id_reserva);
-		
-		
 	}
 
 }

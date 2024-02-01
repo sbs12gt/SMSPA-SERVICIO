@@ -7,13 +7,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="empleado")
-public class Empleado implements Serializable{
+@Table(name="empleados")
+public class Empleado implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -22,14 +20,10 @@ public class Empleado implements Serializable{
 	private Integer id_empleado;
 	
 	@Column
-	private String nombre;
-	
-	@ManyToOne
-	@JoinColumn(name="especialidad_id",nullable=false)
-	private Servicio especialidad;
-	
+	private String nombres;
+
 	@Column
-	private String horario_trabajo;
+	private String apellidos;
 	
 	@Column
 	private String url_foto;
@@ -37,21 +31,16 @@ public class Empleado implements Serializable{
 	@Column 
 	private Boolean estado;
 	
-	public Empleado() {
-		// TODO Auto-generated constructor stub
-	}
+	public Empleado() { }
 
-	public Empleado(Integer id_empleado, String nombre, Servicio especialidad, String horario_trabajo, String url_foto,
+	public Empleado(String nombres, String apellidos, String url_foto,
 			Boolean estado) {
 		super();
-		this.id_empleado = id_empleado;
-		this.nombre = nombre;
-		this.especialidad = especialidad;
-		this.horario_trabajo = horario_trabajo;
+		this.nombres = nombres;
+		this.apellidos = apellidos;
 		this.url_foto = url_foto;
 		this.estado = estado;
 	}
-
 
 	public Integer getId_empleado() {
 		return id_empleado;
@@ -61,30 +50,21 @@ public class Empleado implements Serializable{
 		this.id_empleado = id_empleado;
 	}
 
-	public String getNombre() {
-		return nombre;
+	public String getNombres() {
+		return nombres;
 	}
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setNombres(String nombres) {
+		this.nombres = nombres;
 	}
 
-	public Servicio getEspecialidad() {
-		return especialidad;
+	public String getApellidos() {
+		return apellidos;
 	}
 
-	public void setEspecialidad(Servicio especialidad) {
-		this.especialidad = especialidad;
+	public void setApellidos(String apellidos) {
+		this.apellidos = apellidos;
 	}
-
-	public String getHorario_trabajo() {
-		return horario_trabajo;
-	}
-
-	public void setHorario_trabajo(String horario_trabajo) {
-		this.horario_trabajo = horario_trabajo;
-	}
-
 
 	public String getUrl_foto() {
 		return url_foto;
@@ -94,25 +74,12 @@ public class Empleado implements Serializable{
 		this.url_foto = url_foto;
 	}
 
-	
-
 	public Boolean getEstado() {
 		return estado;
 	}
-
-
 
 	public void setEstado(Boolean estado) {
 		this.estado = estado;
 	}
 
-
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-	
-	
-	
-	
 }
