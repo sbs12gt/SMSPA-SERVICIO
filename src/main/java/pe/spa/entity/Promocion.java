@@ -2,7 +2,12 @@ package pe.spa.entity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+//import java.util.ArrayList;
+//import java.util.Collection;
 
+//import com.fasterxml.jackson.annotation.JsonIgnore;
+
+//import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,6 +15,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+//import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -47,9 +53,13 @@ public class Promocion implements Serializable {
 	private String tipo;
 	
 	@ManyToOne
-	@JoinColumn(name="servicio_promocion", nullable=false)
+	@JoinColumn(name="servicio_promocion")
 	private Servicio id_servicio;
-
+	/*
+	@OneToMany(mappedBy="promocion_reserva", cascade=CascadeType.ALL)
+	@JsonIgnore
+	private Collection<Reserva> itemsReserva=new ArrayList<>();
+	*/
 	public Promocion() { }
 
 	public Promocion(String titulo, String descripcion, Boolean estado,
@@ -146,5 +156,13 @@ public class Promocion implements Serializable {
 	public void setId_servicio(Servicio id_servicio) {
 		this.id_servicio = id_servicio;
 	}
+	/*
+	public Collection<Reserva> getItemsReserva() {
+		return itemsReserva;
+	}
 
+	public void setItemsReserva(Collection<Reserva> itemsReserva) {
+		this.itemsReserva = itemsReserva;
+	}
+	*/
 }

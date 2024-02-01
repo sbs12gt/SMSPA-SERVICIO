@@ -23,7 +23,7 @@ public class Reserva implements Serializable {
 	private Integer id_reserva;
 	
 	@ManyToOne
-	@JoinColumn(name="servicio_reserva", nullable=false)
+	@JoinColumn(name="servicio_reserva")
 	private Servicio id_servicio;
 	
 	@Column
@@ -45,28 +45,33 @@ public class Reserva implements Serializable {
 	private String telefono_cliente;
 	
 	@ManyToOne
-	@JoinColumn(name="empleado_reserva", nullable=false)
+	@JoinColumn(name="empleado_reserva")
 	private Empleado id_empleado;
 	
 	@ManyToOne
-	@JoinColumn(name="instalacion_reserva", nullable=false)
+	@JoinColumn(name="instalacion_reserva")
 	private Instalacion id_instalacion;
 	
 	@ManyToOne
-	@JoinColumn(name="promocion_reserva", nullable=false)
+	@JoinColumn(name="promocion_reserva")
 	private Promocion id_promocion;
 	
 	public Reserva() { }
 
-	public Reserva(LocalDateTime fecha, LocalDateTime hora, String correo_cliente,
-			String nombres_cliente, String apellidos_cliente, String telefono_cliente) {
+	public Reserva(Servicio id_servicio, LocalDateTime fecha, LocalDateTime hora, String correo_cliente,
+			String nombres_cliente, String apellidos_cliente, String telefono_cliente,
+			Empleado id_empleado, Instalacion id_instalacion, Promocion id_promocion) {
 		super();
+		this.id_servicio = id_servicio;
 		this.fecha = fecha;
 		this.hora = hora;
 		this.correo_cliente = correo_cliente;
 		this.nombres_cliente = nombres_cliente;
 		this.apellidos_cliente = apellidos_cliente;
 		this.telefono_cliente = telefono_cliente;
+		this.id_empleado = id_empleado;
+		this.id_instalacion = id_instalacion;
+		this.id_promocion = id_promocion;
 	}
 
 	public Integer getId_reserva() {

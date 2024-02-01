@@ -1,17 +1,17 @@
 package pe.spa.entity;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+//import java.util.ArrayList;
+//import java.util.Collection;
+//import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.CascadeType;
+//import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+//import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -47,19 +47,15 @@ public class Servicio implements Serializable {
 	
 	@Column 
 	private Boolean estado;
-
+	/*
 	@OneToMany(mappedBy="servicio_promocion", cascade=CascadeType.ALL)
 	@JsonIgnore
 	private Collection<Promocion> itemsPromocion=new ArrayList<>();
 	
-	@OneToMany(mappedBy="servicio_empleado", cascade=CascadeType.ALL)
-	@JsonIgnore
-	private Collection<Empleado> itemsEmpleado=new ArrayList<>();
-	
 	@OneToMany(mappedBy="servicio_reserva", cascade=CascadeType.ALL)
 	@JsonIgnore
 	private Collection<Reserva> itemsReserva=new ArrayList<>();
-	
+	*/
 	public Servicio() {	}
 
 	public Servicio(String nombre, String descripcion, Integer duracion, Double precio,
@@ -146,7 +142,7 @@ public class Servicio implements Serializable {
 	public void setEstado(Boolean estado) {
 		this.estado = estado;
 	}
-
+	/*
 	public Collection<Reserva> getItemsReserva() {
 		return itemsReserva;
 	}
@@ -162,13 +158,5 @@ public class Servicio implements Serializable {
 	public void setItemsPromocion(Collection<Promocion> itemsPromocion) {
 		this.itemsPromocion = itemsPromocion;
 	}
-
-	public Collection<Empleado> getItemsEmpleado() {
-		return itemsEmpleado;
-	}
-
-	public void setItemsEmpleado(Collection<Empleado> itemsEmpleado) {
-		this.itemsEmpleado = itemsEmpleado;
-	}
-
+	*/
 }
