@@ -57,10 +57,8 @@ public class Reserva implements Serializable{
 	private Promocion promocion_reservada;
 	
 	public Reserva() {
-		// TODO Auto-generated constructor stub
+		
 	}
-
-	
 
 	public Reserva(Integer id_reserva, LocalDateTime fecha, LocalDateTime hora, String correo_cliente,
 			String nombre_cliente, String apellido_cliente, String telefono_cliente) {
@@ -73,8 +71,6 @@ public class Reserva implements Serializable{
 		this.apellido_cliente = apellido_cliente;
 		this.telefono_cliente = telefono_cliente;
 	}
-
-
 
 	public Integer getId_reserva() {
 		return id_reserva;
@@ -108,19 +104,13 @@ public class Reserva implements Serializable{
 		this.hora = hora;
 	}
 
-	
-
 	public String getCorreo_cliente() {
 		return correo_cliente;
 	}
 
-
-
 	public void setCorreo_cliente(String correo_cliente) {
 		this.correo_cliente = correo_cliente;
 	}
-
-
 
 	public String getNombre_cliente() {
 		return nombre_cliente;
