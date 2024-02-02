@@ -45,4 +45,11 @@ public class PromocionServiceImpl implements PromocionService {
 		repository.deleteById(id_promocion);
 	}
 
+	
+	//
+	@Override
+	public Collection<Promocion> findAvailablePromotions() {
+		return repository.findAvailablePromotions();
+	}
+
 }

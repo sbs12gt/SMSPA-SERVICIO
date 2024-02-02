@@ -53,7 +53,7 @@ public class Promocion implements Serializable {
 	private String tipo;
 	
 	@ManyToOne
-	@JoinColumn(name="servicio_promocion")
+	@JoinColumn(name="id_servicio")
 	private Servicio id_servicio;
 	/*
 	@OneToMany(mappedBy="promocion_reserva", cascade=CascadeType.ALL)

@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import pe.spa.entity.Promocion;
 import pe.spa.service.PromocionService;
 
@@ -77,6 +76,16 @@ public class PromocionRestController {
 			return new ResponseEntity<>("¡Promoción borrada!", HttpStatus.OK);
 		}
 		return new ResponseEntity<>("¡No existe la promoción " + id_promocion + "!", HttpStatus.NOT_FOUND);
+	}
+	
+	//
+	@GetMapping("/listarPromocionesDisponibles")
+	public ResponseEntity<?> listarPromocionesDisponibles_GET() {
+		Collection<Promocion> promociones = service.findAvailablePromotions();
+		if (promociones.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<>(promociones, HttpStatus.OK);
 	}
 	
 }

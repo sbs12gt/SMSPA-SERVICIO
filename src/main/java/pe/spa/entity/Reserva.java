@@ -23,7 +23,7 @@ public class Reserva implements Serializable {
 	private Integer id_reserva;
 	
 	@ManyToOne
-	@JoinColumn(name="servicio_reserva")
+	@JoinColumn(name="id_servicio")
 	private Servicio id_servicio;
 	
 	@Column
@@ -45,15 +45,15 @@ public class Reserva implements Serializable {
 	private String telefono_cliente;
 	
 	@ManyToOne
-	@JoinColumn(name="empleado_reserva")
+	@JoinColumn(name="id_empleado")
 	private Empleado id_empleado;
 	
 	@ManyToOne
-	@JoinColumn(name="instalacion_reserva")
+	@JoinColumn(name="id_instalacion")
 	private Instalacion id_instalacion;
 	
 	@ManyToOne
-	@JoinColumn(name="promocion_reserva")
+	@JoinColumn(name="id_promocion")
 	private Promocion id_promocion;
 	
 	public Reserva() { }
