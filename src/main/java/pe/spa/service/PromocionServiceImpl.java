@@ -45,4 +45,18 @@ public class PromocionServiceImpl implements PromocionService {
 		repository.deleteById(id_promocion);
 	}
 
+	
+	//
+	@Override
+	@Transactional(readOnly=true)
+	public Collection<Promocion> findAvailablePromotions() {
+		return repository.findAvailablePromotions();
+	}
+
+	@Override
+	@Transactional(readOnly=true)
+	public Collection<Object[]> SpecificFindAll() {
+		return repository.SpecificFindAll();
+	}
+
 }
