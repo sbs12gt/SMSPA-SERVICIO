@@ -41,6 +41,7 @@ public class InstalacionRestController {
 		return new ResponseEntity<>(instalaciones, HttpStatus.OK);
 	}
 	
+	
 	@GetMapping("/buscar/{id_instalacion}")
 	public ResponseEntity<?> buscar_GET(@PathVariable Integer id_instalacion) {
 		Instalacion instalacion = service.findById(id_instalacion);

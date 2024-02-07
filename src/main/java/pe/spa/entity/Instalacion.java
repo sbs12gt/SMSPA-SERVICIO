@@ -32,7 +32,7 @@ public class Instalacion implements Serializable {
 	private String descripcion;
 	
 	@Column
-	private String estado;
+	private Boolean estado;
 	/*
 	@OneToMany(mappedBy="instalacion_reserva", cascade=CascadeType.ALL)
 	@JsonIgnore
@@ -40,12 +40,15 @@ public class Instalacion implements Serializable {
 	*/
 	public Instalacion() { }
 
-	public Instalacion(String rotulo, String descripcion, String estado) {
+	
+	public Instalacion(Integer id_instalacion, String rotulo, String descripcion, Boolean estado) {
 		super();
+		this.id_instalacion = id_instalacion;
 		this.rotulo = rotulo;
 		this.descripcion = descripcion;
 		this.estado = estado;
 	}
+
 
 	public Integer getId_instalacion() {
 		return id_instalacion;
@@ -71,13 +74,17 @@ public class Instalacion implements Serializable {
 		this.descripcion = descripcion;
 	}
 
-	public String getEstado() {
+
+	public Boolean getEstado() {
 		return estado;
 	}
 
-	public void setEstado(String estado) {
+
+	public void setEstado(Boolean estado) {
 		this.estado = estado;
 	}
+
+	
 	/*
 	public Collection<Reserva> getItemsReserva() {
 		return itemsReserva;
