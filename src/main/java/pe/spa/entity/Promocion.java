@@ -10,11 +10,13 @@ import java.time.LocalDateTime;
 //import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+//import jakarta.persistence.JoinColumn;
+//import jakarta.persistence.ManyToOne;
 //import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -28,33 +30,33 @@ public class Promocion implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id_promocion;
 	
-	@Column
+	@Column(length=500, nullable=false, unique=true)
 	private String titulo;
 	
-	@Column
+	@Column(length=3000)
 	private String descripcion;
 	
-	@Column
+	@Column(columnDefinition="TINYINT(1) DEFAULT 0")
 	private Boolean estado;
 	
-	@Column
+	@Column(nullable=false)
 	private LocalDateTime fecha_inicio;
 	
-	@Column
+	@Column(nullable=false)
 	private LocalDateTime fecha_fin;
 	
-	@Column
+	@Column(length=1000)
 	private String url_imagen;
 	
-	@Column
-	private Integer descuento;
+	@Column(nullable=false)
+	private Short descuento;
 	
-	@Column
-	private String tipo;
+	@Enumerated(EnumType.STRING)
+	@Column(nullable=false)
+	private TipoPromocion tipo;
 	
-	@ManyToOne
-	@JoinColumn(name="servicio_promocion")
-	private Servicio id_servicio;
+	@Column(length=1000)
+	private String servicios;
 	/*
 	@OneToMany(mappedBy="promocion_reserva", cascade=CascadeType.ALL)
 	@JsonIgnore
@@ -63,8 +65,8 @@ public class Promocion implements Serializable {
 	public Promocion() { }
 
 	public Promocion(String titulo, String descripcion, Boolean estado,
-			LocalDateTime fecha_inicio, LocalDateTime fecha_fin, String url_imagen, Integer descuento,
-			String tipo, Servicio id_servicio) {
+			LocalDateTime fecha_inicio, LocalDateTime fecha_fin, String url_imagen, Short descuento,
+			TipoPromocion tipo, String servicios) {
 		super();
 		this.titulo = titulo;
 		this.descripcion = descripcion;
@@ -74,7 +76,7 @@ public class Promocion implements Serializable {
 		this.url_imagen = url_imagen;
 		this.descuento = descuento;
 		this.tipo = tipo;
-		this.id_servicio = id_servicio;
+		this.servicios = servicios;
 	}
 
 	public Integer getId_promocion() {
@@ -133,28 +135,28 @@ public class Promocion implements Serializable {
 		this.url_imagen = url_imagen;
 	}
 
-	public Integer getDescuento() {
+	public Short getDescuento() {
 		return descuento;
 	}
 
-	public void setDescuento(Integer descuento) {
+	public void setDescuento(Short descuento) {
 		this.descuento = descuento;
 	}
 
-	public String getTipo() {
+	public TipoPromocion getTipo() {
 		return tipo;
 	}
 
-	public void setTipo(String tipo) {
+	public void setTipo(TipoPromocion tipo) {
 		this.tipo = tipo;
 	}
 
-	public Servicio getId_servicio() {
-		return id_servicio;
+	public String getServicios() {
+		return servicios;
 	}
 
-	public void setId_servicio(Servicio id_servicio) {
-		this.id_servicio = id_servicio;
+	public void setServicios(String servicios) {
+		this.servicios = servicios;
 	}
 	/*
 	public Collection<Reserva> getItemsReserva() {

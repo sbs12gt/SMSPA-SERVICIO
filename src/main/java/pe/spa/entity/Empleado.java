@@ -25,17 +25,26 @@ public class Empleado implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id_empleado;
 	
-	@Column
+	@Column(length=200, nullable=false)
 	private String nombres;
 
-	@Column
+	@Column(length=200, nullable=false)
 	private String apellidos;
+
+	@Column(length=300, nullable=false, unique=true)
+	private String correo;
+
+	@Column(length=50, nullable=false, unique=true)
+	private String telefono;
 	
-	@Column
+	@Column(length=1000)
 	private String url_foto;
 	
-	@Column 
+	@Column(columnDefinition="TINYINT(1) DEFAULT 0")
 	private Boolean estado;
+
+	@Column(length=2000)
+	private String descripcion;
 	/* 
 	@OneToMany(mappedBy="empleado_reserva", cascade=CascadeType.ALL)
 	@JsonIgnore
@@ -43,13 +52,16 @@ public class Empleado implements Serializable {
 	*/
 	public Empleado() { }
 
-	public Empleado(String nombres, String apellidos, String url_foto,
-			Boolean estado) {
+	public Empleado(String nombres, String apellidos, String correo,
+		String telefono, String url_foto, Boolean estado, String descripcion) {
 		super();
 		this.nombres = nombres;
 		this.apellidos = apellidos;
+		this.correo = correo;
+		this.telefono = telefono;
 		this.url_foto = url_foto;
 		this.estado = estado;
+		this.descripcion = descripcion;
 	}
 
 	public Integer getId_empleado() {
@@ -76,6 +88,22 @@ public class Empleado implements Serializable {
 		this.apellidos = apellidos;
 	}
 
+	public String getCorreo() {
+		return correo;
+	}
+
+	public void setCorreo(String correo) {
+		this.correo = correo;
+	}
+
+	public String getTelefono() {
+		return telefono;
+	}
+
+	public void setTelefono(String telefono) {
+		this.telefono = telefono;
+	}
+
 	public String getUrl_foto() {
 		return url_foto;
 	}
@@ -90,6 +118,14 @@ public class Empleado implements Serializable {
 
 	public void setEstado(Boolean estado) {
 		this.estado = estado;
+	}
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
 	}
 	/*
 	public Collection<Reserva> getItemsReserva() {

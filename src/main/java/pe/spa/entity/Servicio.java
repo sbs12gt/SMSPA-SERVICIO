@@ -4,6 +4,7 @@ import java.io.Serializable;
 //import java.util.ArrayList;
 //import java.util.Collection;
 //import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.math.BigDecimal;
 
 //import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -24,28 +25,28 @@ public class Servicio implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id_servicio;
 	
-	@Column
+	@Column(length=200, nullable=false, unique=true)
 	private String nombre;
 	
-	@Column
+	@Column(length=2000)
 	private String descripcion;
 	
-	@Column
-	private Integer duracion;
+	@Column(columnDefinition="SMALLINT DEFAULT 60 NOT NULL")
+	private Short duracion;
 	
-	@Column
-	private Double precio;
+	@Column(precision=7, scale=2, nullable=false)
+	private BigDecimal precio;
 	
-	@Column
+	@Column(length=1000)
 	private String url_imagen;
 	
-	@Column
+	@Column(length=100, nullable=false)
 	private String categoria;
 	
-	@Column
+	@Column(columnDefinition="TINYINT(1) DEFAULT 0")
 	private Boolean favorito;
 	
-	@Column 
+	@Column (columnDefinition="TINYINT(1) DEFAULT 0")
 	private Boolean estado;
 	/*
 	@OneToMany(mappedBy="servicio_promocion", cascade=CascadeType.ALL)
@@ -58,7 +59,7 @@ public class Servicio implements Serializable {
 	*/
 	public Servicio() {	}
 
-	public Servicio(String nombre, String descripcion, Integer duracion, Double precio,
+	public Servicio(String nombre, String descripcion, Short duracion, BigDecimal precio,
 			String url_imagen, String categoria, Boolean favorito, Boolean estado) {
 		super();
 		this.nombre = nombre;
@@ -95,19 +96,19 @@ public class Servicio implements Serializable {
 		this.descripcion = descripcion;
 	}
 
-	public Integer getDuracion() {
+	public Short getDuracion() {
 		return duracion;
 	}
 
-	public void setDuracion(Integer duracion) {
+	public void setDuracion(Short duracion) {
 		this.duracion = duracion;
 	}
 
-	public Double getPrecio() {
+	public BigDecimal getPrecio() {
 		return precio;
 	}
 
-	public void setPrecio(Double precio) {
+	public void setPrecio(BigDecimal precio) {
 		this.precio = precio;
 	}
 

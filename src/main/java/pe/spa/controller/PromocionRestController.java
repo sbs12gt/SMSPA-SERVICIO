@@ -59,7 +59,7 @@ public class PromocionRestController {
 			promocionBD.setEstado(promocion.getEstado());
 			promocionBD.setFecha_fin(promocion.getFecha_fin());
 			promocionBD.setFecha_inicio(promocion.getFecha_inicio());
-			promocionBD.setId_servicio(promocion.getId_servicio());
+			promocionBD.setServicios(promocion.getServicios());
 			promocionBD.setTipo(promocion.getTipo());
 			promocionBD.setTitulo(promocion.getTitulo());
 			promocionBD.setUrl_imagen(promocion.getUrl_imagen());

@@ -25,14 +25,14 @@ public class Instalacion implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id_instalacion;
 	
-	@Column
+	@Column(length=100, nullable=false, unique=true)
 	private String rotulo;
 	
-	@Column
+	@Column(length=2000)
 	private String descripcion;
 	
-	@Column
-	private String estado;
+	@Column(columnDefinition="TINYINT(1) DEFAULT 0")
+	private Boolean estado;
 	/*
 	@OneToMany(mappedBy="instalacion_reserva", cascade=CascadeType.ALL)
 	@JsonIgnore
@@ -40,7 +40,7 @@ public class Instalacion implements Serializable {
 	*/
 	public Instalacion() { }
 
-	public Instalacion(String rotulo, String descripcion, String estado) {
+	public Instalacion(String rotulo, String descripcion, Boolean estado) {
 		super();
 		this.rotulo = rotulo;
 		this.descripcion = descripcion;
@@ -71,11 +71,11 @@ public class Instalacion implements Serializable {
 		this.descripcion = descripcion;
 	}
 
-	public String getEstado() {
+	public Boolean getEstado() {
 		return estado;
 	}
 
-	public void setEstado(String estado) {
+	public void setEstado(Boolean estado) {
 		this.estado = estado;
 	}
 	/*

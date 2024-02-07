@@ -58,6 +58,9 @@ public class EmpleadoRestController {
 			empleadoBD.setEstado(empleado.getEstado());
 			empleadoBD.setNombres(empleado.getNombres());
 			empleadoBD.setUrl_foto(empleado.getUrl_foto());
+			empleadoBD.setDescripcion(empleado.getDescripcion());
+			empleadoBD.setCorreo(empleado.getCorreo());
+			empleadoBD.setTelefono(empleado.getTelefono());
 			service.update(empleadoBD);
 			return new ResponseEntity<>("¡Empleado editado!", HttpStatus.OK);
 		}
