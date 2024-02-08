@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pe.spa.entity.Promocion;
 import pe.spa.service.PromocionService;
-import pe.spa.util.Mapper;
 
 @RestController
 @RequestMapping("/promociones")
@@ -49,7 +48,7 @@ public class PromocionRestController {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
 
-		return new ResponseEntity<>(Mapper.toPromocionListarEspecifico(list), HttpStatus.OK);
+		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 	
 	@GetMapping("/buscar/{id_promocion}")

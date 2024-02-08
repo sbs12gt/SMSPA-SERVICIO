@@ -1,7 +1,8 @@
 package pe.spa.entity;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -23,14 +24,14 @@ public class Reserva implements Serializable {
 	private Integer id_reserva;
 	
 	@ManyToOne
-	@JoinColumn(name="id_servicio", nullable=false)
+	@JoinColumn(name="id_servicio")
 	private Servicio id_servicio;
 	
 	@Column(nullable=false)
-	private LocalDateTime fecha;
+	private LocalDate fecha;
 	
-	@Column(nullable=false)
-	private LocalDateTime hora;
+	@Column(columnDefinition="TIME(0)", nullable=false)
+	private LocalTime hora;
 
 	@Column(length=300, nullable=false)
 	private String correo_cliente;
@@ -45,20 +46,20 @@ public class Reserva implements Serializable {
 	private String telefono_cliente;
 	
 	@ManyToOne
-	@JoinColumn(name="id_empleado", nullable=false)
+	@JoinColumn(name="id_empleado")
 	private Empleado id_empleado;
 	
 	@ManyToOne
-	@JoinColumn(name="id_instalacion", nullable=false)
+	@JoinColumn(name="id_instalacion")
 	private Instalacion id_instalacion;
 	
 	@ManyToOne
-	@JoinColumn(name="id_promocion", nullable=false)
+	@JoinColumn(name="id_promocion")
 	private Promocion id_promocion;
 	
 	public Reserva() { }
 
-	public Reserva(Servicio id_servicio, LocalDateTime fecha, LocalDateTime hora, String correo_cliente,
+	public Reserva(Servicio id_servicio, LocalDate fecha, LocalTime hora, String correo_cliente,
 			String nombres_cliente, String apellidos_cliente, String telefono_cliente,
 			Empleado id_empleado, Instalacion id_instalacion, Promocion id_promocion) {
 		super();
@@ -82,19 +83,19 @@ public class Reserva implements Serializable {
 		this.id_reserva = id_reserva;
 	}
 
-	public LocalDateTime getFecha() {
+	public LocalDate getFecha() {
 		return fecha;
 	}
 
-	public void setFecha(LocalDateTime fecha) {
+	public void setFecha(LocalDate fecha) {
 		this.fecha = fecha;
 	}
 
-	public LocalDateTime getHora() {
+	public LocalTime getHora() {
 		return hora;
 	}
 
-	public void setHora(LocalDateTime hora) {
+	public void setHora(LocalTime hora) {
 		this.hora = hora;
 	}
 
