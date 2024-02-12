@@ -2,7 +2,7 @@ package pe.spa.entity;
 
 import java.io.Serializable;
 //import java.util.ArrayList;
-//import java.util.Collection;
+//import java.util.List;
 
 //import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -26,43 +26,31 @@ public class Empleado implements Serializable {
 	private Integer id_empleado;
 	
 	@Column(length=200, nullable=false)
-	private String nombres;
-
-	@Column(length=200, nullable=false)
 	private String apellidos;
 
 	@Column(length=300, nullable=false, unique=true)
 	private String correo;
+
+	@Column(length=2000)
+	private String descripcion;
+
+	@Column(columnDefinition="BIT(1) NOT NULL")
+	private Boolean estado;
+
+	@Column(length=200, nullable=false)
+	private String nombres;
 
 	@Column(length=50, nullable=false, unique=true)
 	private String telefono;
 	
 	@Column(length=1000)
 	private String url_foto;
-	
-	@Column(columnDefinition="TINYINT(1) DEFAULT 0")
-	private Boolean estado;
-
-	@Column(length=2000)
-	private String descripcion;
 	/* 
-	@OneToMany(mappedBy="empleado_reserva", cascade=CascadeType.ALL)
 	@JsonIgnore
-	private Collection<Reserva> itemsReserva=new ArrayList<>();
+	@OneToMany(mappedBy="empleado_reserva", cascade=CascadeType.ALL)
+	private List<Reserva> itemsReserva = new ArrayList<>();
 	*/
 	public Empleado() { }
-
-	public Empleado(String nombres, String apellidos, String correo,
-		String telefono, String url_foto, Boolean estado, String descripcion) {
-		super();
-		this.nombres = nombres;
-		this.apellidos = apellidos;
-		this.correo = correo;
-		this.telefono = telefono;
-		this.url_foto = url_foto;
-		this.estado = estado;
-		this.descripcion = descripcion;
-	}
 
 	public Integer getId_empleado() {
 		return id_empleado;
@@ -70,14 +58,6 @@ public class Empleado implements Serializable {
 
 	public void setId_empleado(Integer id_empleado) {
 		this.id_empleado = id_empleado;
-	}
-
-	public String getNombres() {
-		return nombres;
-	}
-
-	public void setNombres(String nombres) {
-		this.nombres = nombres;
 	}
 
 	public String getApellidos() {
@@ -96,6 +76,30 @@ public class Empleado implements Serializable {
 		this.correo = correo;
 	}
 
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+
+	public Boolean getEstado() {
+		return estado;
+	}
+
+	public void setEstado(Boolean estado) {
+		this.estado = estado;
+	}
+
+	public String getNombres() {
+		return nombres;
+	}
+
+	public void setNombres(String nombres) {
+		this.nombres = nombres;
+	}
+
 	public String getTelefono() {
 		return telefono;
 	}
@@ -111,28 +115,12 @@ public class Empleado implements Serializable {
 	public void setUrl_foto(String url_foto) {
 		this.url_foto = url_foto;
 	}
-
-	public Boolean getEstado() {
-		return estado;
-	}
-
-	public void setEstado(Boolean estado) {
-		this.estado = estado;
-	}
-
-	public String getDescripcion() {
-		return descripcion;
-	}
-
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}
 	/*
-	public Collection<Reserva> getItemsReserva() {
+	public List<Reserva> getItemsReserva() {
 		return itemsReserva;
 	}
 
-	public void setItemsReserva(Collection<Reserva> itemsReserva) {
+	public void setItemsReserva(List<Reserva> itemsReserva) {
 		this.itemsReserva = itemsReserva;
 	}
 	*/

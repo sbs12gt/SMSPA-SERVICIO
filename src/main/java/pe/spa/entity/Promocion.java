@@ -2,12 +2,12 @@ package pe.spa.entity;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-//import java.util.ArrayList;
-//import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
 
-//import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-//import jakarta.persistence.CascadeType;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -15,9 +15,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-//import jakarta.persistence.JoinColumn;
-//import jakarta.persistence.ManyToOne;
-//import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -30,54 +28,40 @@ public class Promocion implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id_promocion;
 	
-	@Column(length=500, nullable=false, unique=true)
-	private String titulo;
-	
 	@Column(length=3000)
 	private String descripcion;
-	
-	@Column(columnDefinition="TINYINT(1) DEFAULT 0")
-	private Boolean estado;
-	
-	@Column(nullable=false)
-	private LocalDate fecha_inicio;
-	
-	@Column(nullable=false)
-	private LocalDate fecha_fin;
-	
-	@Column(length=1000)
-	private String url_imagen;
-	
+
 	@Column(nullable=false)
 	private Short descuento;
-	
+
+	@Column(columnDefinition="BIT(1) NOT NULL")
+	private Boolean estado;
+
+	@Column(nullable=false)
+	private LocalDate fecha_fin;
+
+	@Column(nullable=false)
+	private LocalDate fecha_inicio;
+
 	@Enumerated(EnumType.STRING)
 	@Column(nullable=false)
 	private TipoPromocion tipo;
-	
+
+	@Column(length=500, nullable=false, unique=true)
+	private String titulo;
+
 	@Column(length=1000)
-	private String servicios;
-	/*
-	@OneToMany(mappedBy="promocion_reserva", cascade=CascadeType.ALL)
+	private String url_imagen;
+
 	@JsonIgnore
-	private Collection<Reserva> itemsReserva=new ArrayList<>();
+	@OneToMany(mappedBy="promocion", cascade=CascadeType.ALL)
+    private List<Servicio> itemsServicio = new ArrayList<>();
+	/*
+	@JsonIgnore
+	@OneToMany(mappedBy="promocion_reserva", cascade=CascadeType.ALL)
+	private List<Reserva> itemsReserva = new ArrayList<>();
 	*/
 	public Promocion() { }
-
-	public Promocion(String titulo, String descripcion, Boolean estado,
-	LocalDate fecha_inicio, LocalDate fecha_fin, String url_imagen, Short descuento,
-			TipoPromocion tipo, String servicios) {
-		super();
-		this.titulo = titulo;
-		this.descripcion = descripcion;
-		this.estado = estado;
-		this.fecha_inicio = fecha_inicio;
-		this.fecha_fin = fecha_fin;
-		this.url_imagen = url_imagen;
-		this.descuento = descuento;
-		this.tipo = tipo;
-		this.servicios = servicios;
-	}
 
 	public Integer getId_promocion() {
 		return id_promocion;
@@ -85,14 +69,6 @@ public class Promocion implements Serializable {
 
 	public void setId_promocion(Integer id_promocion) {
 		this.id_promocion = id_promocion;
-	}
-
-	public String getTitulo() {
-		return titulo;
-	}
-
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
 	}
 
 	public String getDescripcion() {
@@ -103,20 +79,20 @@ public class Promocion implements Serializable {
 		this.descripcion = descripcion;
 	}
 
+	public Short getDescuento() {
+		return descuento;
+	}
+
+	public void setDescuento(Short descuento) {
+		this.descuento = descuento;
+	}
+
 	public Boolean getEstado() {
 		return estado;
 	}
 
 	public void setEstado(Boolean estado) {
 		this.estado = estado;
-	}
-
-	public LocalDate getFecha_inicio() {
-		return fecha_inicio;
-	}
-
-	public void setFecha_inicio(LocalDate fecha_inicio) {
-		this.fecha_inicio = fecha_inicio;
 	}
 
 	public LocalDate getFecha_fin() {
@@ -127,22 +103,14 @@ public class Promocion implements Serializable {
 		this.fecha_fin = fecha_fin;
 	}
 
-	public String getUrl_imagen() {
-		return url_imagen;
+	public LocalDate getFecha_inicio() {
+		return fecha_inicio;
 	}
 
-	public void setUrl_imagen(String url_imagen) {
-		this.url_imagen = url_imagen;
+	public void setFecha_inicio(LocalDate fecha_inicio) {
+		this.fecha_inicio = fecha_inicio;
 	}
-
-	public Short getDescuento() {
-		return descuento;
-	}
-
-	public void setDescuento(Short descuento) {
-		this.descuento = descuento;
-	}
-
+	
 	public TipoPromocion getTipo() {
 		return tipo;
 	}
@@ -151,19 +119,35 @@ public class Promocion implements Serializable {
 		this.tipo = tipo;
 	}
 
-	public String getServicios() {
-		return servicios;
+	public String getTitulo() {
+		return titulo;
 	}
 
-	public void setServicios(String servicios) {
-		this.servicios = servicios;
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
+	}
+
+	public String getUrl_imagen() {
+		return url_imagen;
+	}
+
+	public void setUrl_imagen(String url_imagen) {
+		this.url_imagen = url_imagen;
+	}
+
+	public List<Servicio> getItemsServicio() {
+		return itemsServicio;
+	}
+
+	public void setItemsServicio(List<Servicio> itemsServicio) {
+		this.itemsServicio = itemsServicio;
 	}
 	/*
-	public Collection<Reserva> getItemsReserva() {
+	public List<Reserva> getItemsReserva() {
 		return itemsReserva;
 	}
 
-	public void setItemsReserva(Collection<Reserva> itemsReserva) {
+	public void setItemsReserva(List<Reserva> itemsReserva) {
 		this.itemsReserva = itemsReserva;
 	}
 	*/

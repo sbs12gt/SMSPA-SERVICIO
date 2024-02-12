@@ -14,12 +14,13 @@ public class InstalacionServiceImpl implements InstalacionService {
 
 	@Autowired
 	private InstalacionRepository repository;
-	
+	/*
 	@Override
 	@Transactional
-	public void insert(Instalacion instalacion) {
-		repository.save(instalacion);
+	public void delete(Integer id_instalacion) {
+		repository.deleteById(id_instalacion);
 	}
+	*/
 
 	@Override
 	@Transactional(readOnly=true)
@@ -35,14 +36,37 @@ public class InstalacionServiceImpl implements InstalacionService {
 
 	@Override
 	@Transactional
-	public void update(Instalacion instalacion) {
+	public void save(Instalacion instalacion) {
 		repository.save(instalacion);	
+	}
+	
+	//
+
+	@Override
+	@Transactional(readOnly=true)
+	public Collection<Instalacion> findAvailableFacilities() {
+		return repository.findAvailableFacilities();
+	}
+
+	@Override
+	@Transactional(readOnly=true)
+	public Instalacion findByRotulo(String rotulo) {
+		return repository.findByRotulo(rotulo);
 	}
 
 	@Override
 	@Transactional
-	public void delete(Integer id_instalacion) {
-		repository.deleteById(id_instalacion);
+	public void disable(Integer id_instalacion) {
+		Instalacion instalacion = repository.findById(id_instalacion).orElse(null);
+		if (instalacion != null) {
+			if (!instalacion.getEstado()) {
+				instalacion.setEstado(true);
+			} else {
+				instalacion.setColor(null);
+				instalacion.setEstado(false);
+			}
+			repository.save(instalacion);
+		}
 	}
 
 }

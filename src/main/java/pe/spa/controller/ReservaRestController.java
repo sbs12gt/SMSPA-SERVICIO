@@ -16,7 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import pe.spa.entity.Reserva;
+import pe.spa.service.EmpleadoService;
+import pe.spa.service.InstalacionService;
+import pe.spa.service.PromocionService;
 import pe.spa.service.ReservaService;
+import pe.spa.service.ServicioService;
 
 @RestController
 @RequestMapping("/reservas")
@@ -24,14 +28,16 @@ import pe.spa.service.ReservaService;
 public class ReservaRestController {
 	
 	@Autowired
+	private EmpleadoService empleadoService;
+	@Autowired
+	private InstalacionService instalacionService;
+	@Autowired
+	private PromocionService promocionService;
+	@Autowired
 	private ReservaService service;
-	
-	@PostMapping("/registrar")
-	public ResponseEntity<?> registrar_POST(@RequestBody Reserva reserva) {
-		service.insert(reserva);		
-		return new ResponseEntity<>("¡Reserva registrada!", HttpStatus.CREATED);
-	}
-	
+	@Autowired
+	private ServicioService servicioService;
+
 	@GetMapping("/listar")
 	public ResponseEntity<?> listar_GET() {
 		Collection<Reserva> reservas = service.findAll();
@@ -41,6 +47,33 @@ public class ReservaRestController {
 		return new ResponseEntity<>(reservas, HttpStatus.OK);
 	}
 	
+	@PostMapping("/registrar")
+	public ResponseEntity<?> registrar_POST(@RequestBody Reserva reserva) {
+		if (reserva.getApellidos_cliente() != null && reserva.getApellidos_cliente().length() <= 200) {
+			if (reserva.getCorreo_cliente() != null && reserva.getCorreo_cliente().length() <= 300) {
+				if (reserva.getEstado() != null) {
+					if (reserva.getFecha() != null) {
+						if (reserva.getHora() != null) {
+							if (reserva.getNombres_cliente() != null && reserva.getNombres_cliente().length() <= 200) {
+								if (reserva.getTelefono_cliente() != null && reserva.getTelefono_cliente().length() <= 50) {
+									if (reserva.getId_servicio() != null && servicioService.findById(reserva.getId_servicio().getId_servicio()) != null) {
+										reserva.setId_reserva(null);
+										service.save(reserva);
+										return new ResponseEntity<>("Reserva registrada.",
+											HttpStatus.CREATED);
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		return new ResponseEntity<>("Solicitud incorrecta.", HttpStatus.BAD_REQUEST);
+	}
+	
+	
+	
 	@GetMapping("/buscar/{id_reserva}")
 	public ResponseEntity<?> buscar_GET(@PathVariable Integer id_reserva) {
 		Reserva reserva = service.findById(id_reserva);
@@ -49,7 +82,7 @@ public class ReservaRestController {
 	    }
 	    return new ResponseEntity<>(reserva, HttpStatus.OK);
 	}
-	
+	/* 
 	@PutMapping("/editar/{id_reserva}")
 	public ResponseEntity<?> editar_PUT(@RequestBody Reserva reserva, @PathVariable Integer id_reserva) {
 		Reserva reservaBD = service.findById(id_reserva);
@@ -69,7 +102,7 @@ public class ReservaRestController {
 		}
 		return new ResponseEntity<>("¡No existe la reserva " + id_reserva + "!", HttpStatus.NOT_FOUND);
 	}
-	
+	*/
 	@DeleteMapping("/borrar/{id_reserva}")
 	public ResponseEntity<?> borrar_DELETE(@PathVariable Integer id_reserva) {
 		Reserva reservaBD = service.findById(id_reserva);

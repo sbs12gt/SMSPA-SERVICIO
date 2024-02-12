@@ -1,10 +1,11 @@
 package pe.spa.entity;
 
 import java.io.Serializable;
-//import java.util.ArrayList;
-//import java.util.Collection;
-//import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.math.BigDecimal;
+//import java.util.ArrayList;
+//import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 //import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -12,6 +13,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 //import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -24,53 +27,41 @@ public class Servicio implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id_servicio;
+
+	@Column(length=100, nullable=false)
+	private String categoria;
+
+	@Column(length=2000)
+	private String descripcion;
+
+	@Column(columnDefinition="SMALLINT NOT NULL")
+	private Short duracion;
+
+	@Column(columnDefinition="BIT(1) NOT NULL")
+	private Boolean estado;
+
+	@Column(columnDefinition="BIT(1) NOT NULL")
+	private Boolean favorito;
 	
 	@Column(length=200, nullable=false, unique=true)
 	private String nombre;
-	
-	@Column(length=2000)
-	private String descripcion;
-	
-	@Column(columnDefinition="SMALLINT DEFAULT 60 NOT NULL")
-	private Short duracion;
-	
+
 	@Column(precision=7, scale=2, nullable=false)
 	private BigDecimal precio;
 	
 	@Column(length=1000)
 	private String url_imagen;
-	
-	@Column(length=100, nullable=false)
-	private String categoria;
-	
-	@Column(columnDefinition="TINYINT(1) DEFAULT 0")
-	private Boolean favorito;
-	
-	@Column (columnDefinition="TINYINT(1) DEFAULT 0")
-	private Boolean estado;
+
+	@JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "id_promocion")
+    private Promocion promocion;
 	/*
-	@OneToMany(mappedBy="servicio_promocion", cascade=CascadeType.ALL)
 	@JsonIgnore
-	private Collection<Promocion> itemsPromocion=new ArrayList<>();
-	
 	@OneToMany(mappedBy="servicio_reserva", cascade=CascadeType.ALL)
-	@JsonIgnore
-	private Collection<Reserva> itemsReserva=new ArrayList<>();
+	private List<Reserva> itemsReserva = new ArrayList<>();
 	*/
 	public Servicio() {	}
-
-	public Servicio(String nombre, String descripcion, Short duracion, BigDecimal precio,
-			String url_imagen, String categoria, Boolean favorito, Boolean estado) {
-		super();
-		this.nombre = nombre;
-		this.descripcion = descripcion;
-		this.duracion = duracion;
-		this.precio = precio;
-		this.url_imagen = url_imagen;
-		this.categoria = categoria;
-		this.favorito = favorito;
-		this.estado = estado;
-	}
 
 	public Integer getId_servicio() {
 		return id_servicio;
@@ -80,12 +71,12 @@ public class Servicio implements Serializable {
 		this.id_servicio = id_servicio;
 	}
 
-	public String getNombre() {
-		return nombre;
+	public String getCategoria() {
+		return categoria;
 	}
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setCategoria(String categoria) {
+		this.categoria = categoria;
 	}
 
 	public String getDescripcion() {
@@ -104,6 +95,30 @@ public class Servicio implements Serializable {
 		this.duracion = duracion;
 	}
 
+	public Boolean getEstado() {
+		return estado;
+	}
+
+	public void setEstado(Boolean estado) {
+		this.estado = estado;
+	}
+
+	public Boolean getFavorito() {
+		return favorito;
+	}
+
+	public void setFavorito(Boolean favorito) {
+		this.favorito = favorito;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
 	public BigDecimal getPrecio() {
 		return precio;
 	}
@@ -120,44 +135,20 @@ public class Servicio implements Serializable {
 		this.url_imagen = url_imagen;
 	}
 
-	public String getCategoria() {
-		return categoria;
+	public Promocion getPromocion() {
+		return promocion;
 	}
 
-	public void setCategoria(String categoria) {
-		this.categoria = categoria;
-	}
-	
-	public Boolean getFavorito() {
-		return favorito;
-	}
-
-	public void setFavorito(Boolean favorito) {
-		this.favorito = favorito;
-	}
-
-	public Boolean getEstado() {
-		return estado;
-	}
-
-	public void setEstado(Boolean estado) {
-		this.estado = estado;
+	public void setPromocion(Promocion promocion) {
+		this.promocion = promocion;
 	}
 	/*
-	public Collection<Reserva> getItemsReserva() {
+	public List<Reserva> getItemsReserva() {
 		return itemsReserva;
 	}
 
-	public void setItemsReserva(Collection<Reserva> itemsReserva) {
+	public void setItemsReserva(List<Reserva> itemsReserva) {
 		this.itemsReserva = itemsReserva;
-	}
-
-	public Collection<Promocion> getItemsPromocion() {
-		return itemsPromocion;
-	}
-
-	public void setItemsPromocion(Collection<Promocion> itemsPromocion) {
-		this.itemsPromocion = itemsPromocion;
 	}
 	*/
 }

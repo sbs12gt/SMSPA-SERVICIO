@@ -2,7 +2,7 @@ package pe.spa.entity;
 
 import java.io.Serializable;
 //import java.util.ArrayList;
-//import java.util.Collection;
+//import java.util.List;
 
 //import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -25,28 +25,24 @@ public class Instalacion implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id_instalacion;
 	
-	@Column(length=100, nullable=false, unique=true)
-	private String rotulo;
-	
+	@Column(columnDefinition="CHAR(7)")
+	private String color;
+
 	@Column(length=2000)
 	private String descripcion;
-	
-	@Column(columnDefinition="TINYINT(1) DEFAULT 0")
+
+	@Column(columnDefinition="BIT(1) NOT NULL")
 	private Boolean estado;
+
+	@Column(length=100, nullable=false, unique=true)
+	private String rotulo;
 	/*
-	@OneToMany(mappedBy="instalacion_reserva", cascade=CascadeType.ALL)
 	@JsonIgnore
-	private Collection<Reserva> itemsReserva=new ArrayList<>();
+	@OneToMany(mappedBy="instalacion_reserva", cascade=CascadeType.ALL)
+	private List<Reserva> itemsReserva = new ArrayList<>();
 	*/
 	public Instalacion() { }
-
-	public Instalacion(String rotulo, String descripcion, Boolean estado) {
-		super();
-		this.rotulo = rotulo;
-		this.descripcion = descripcion;
-		this.estado = estado;
-	}
-
+	
 	public Integer getId_instalacion() {
 		return id_instalacion;
 	}
@@ -55,12 +51,12 @@ public class Instalacion implements Serializable {
 		this.id_instalacion = id_instalacion;
 	}
 
-	public String getRotulo() {
-		return rotulo;
+	public String getColor() {
+		return color;
 	}
 
-	public void setRotulo(String rotulo) {
-		this.rotulo = rotulo;
+	public void setColor(String color) {
+		this.color = color;
 	}
 
 	public String getDescripcion() {
@@ -78,12 +74,20 @@ public class Instalacion implements Serializable {
 	public void setEstado(Boolean estado) {
 		this.estado = estado;
 	}
+
+	public String getRotulo() {
+		return rotulo;
+	}
+
+	public void setRotulo(String rotulo) {
+		this.rotulo = rotulo;
+	}
 	/*
-	public Collection<Reserva> getItemsReserva() {
+	public List<Reserva> getItemsReserva() {
 		return itemsReserva;
 	}
 
-	public void setItemsReserva(Collection<Reserva> itemsReserva) {
+	public void setItemsReserva(List<Reserva> itemsReserva) {
 		this.itemsReserva = itemsReserva;
 	}
 	*/

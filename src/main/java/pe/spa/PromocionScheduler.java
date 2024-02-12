@@ -19,12 +19,10 @@ public class PromocionScheduler {
     @Scheduled(fixedDelay=86400000)
     public void actualizarEstadoPromociones() {
         LocalDate fechaActual = LocalDate.now();
-        Collection<Promocion> promociones = service.findAll();
-        
+        Collection<Promocion> promociones = service.findAvailablePromotions();
         for (Promocion promocion : promociones) {
-            if (promocion.getFecha_fin().isAfter(fechaActual)) {
-                promocion.setEstado(false);
-                service.update(promocion);
+            if (promocion.getFecha_fin().isBefore(fechaActual)) {
+                service.disable(promocion.getId_promocion());
             }
         }
     }

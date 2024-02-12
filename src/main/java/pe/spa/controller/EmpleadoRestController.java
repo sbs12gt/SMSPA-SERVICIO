@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
+//import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,12 +26,6 @@ public class EmpleadoRestController {
 	@Autowired
 	private EmpleadoService service;
 	
-	@PostMapping("/registrar")
-	public ResponseEntity<?> registrar_POST(@RequestBody Empleado empleado) {
-		service.insert(empleado);		
-		return new ResponseEntity<>("¡Empleado registrado!", HttpStatus.CREATED);
-	}
-	
 	@GetMapping("/listar")
 	public ResponseEntity<?> listar_GET() {
 		Collection<Empleado> empleados = service.findAll();
@@ -40,43 +34,82 @@ public class EmpleadoRestController {
 		}
 		return new ResponseEntity<>(empleados, HttpStatus.OK);
 	}
-	
+
+	@PostMapping("/registrar")
+	public ResponseEntity<?> registrar_POST(@RequestBody Empleado empleado) {
+		if (empleado.getApellidos() != null && empleado.getApellidos().length() <= 200) {
+			if (empleado.getCorreo() != null && empleado.getCorreo().length() <= 300) {
+				if (empleado.getDescripcion() == null || empleado.getDescripcion().length() <= 2000) {
+					if (empleado.getNombres() != null && empleado.getNombres().length() <= 200) {
+						if (empleado.getTelefono() != null && empleado.getTelefono().length() <= 50) {
+							if (empleado.getUrl_foto() == null || empleado.getUrl_foto().length() <= 1000) {
+								if (service.findByCorreo(empleado.getCorreo()) == null) {
+									if (service.findByTelefono(empleado.getTelefono()) == null) {
+										empleado.setEstado(false);
+										empleado.setId_empleado(null);
+										service.save(empleado);
+										return new ResponseEntity<>("Empleado registrado.", HttpStatus.CREATED);
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		return new ResponseEntity<>("Solicitud incorrecta.", HttpStatus.BAD_REQUEST);
+	}
+
 	@GetMapping("/buscar/{id_empleado}")
 	public ResponseEntity<?> buscar_GET(@PathVariable Integer id_empleado) {
 		Empleado empleado = service.findById(id_empleado);
 	    if (empleado == null) {
-	    	return new ResponseEntity<>("¡No existe el empleado " + id_empleado + "!", HttpStatus.NOT_FOUND);
+	    	return new ResponseEntity<>("Empleado no encontrado.", HttpStatus.NOT_FOUND);
 	    }
 	    return new ResponseEntity<>(empleado, HttpStatus.OK);
 	}
-
+	
 	@PutMapping("/editar/{id_empleado}")
 	public ResponseEntity<?> editar_PUT(@RequestBody Empleado empleado, @PathVariable Integer id_empleado) {
 		Empleado empleadoBD = service.findById(id_empleado);
 		if (empleadoBD != null) {
-			empleadoBD.setApellidos(empleado.getApellidos());
-			empleadoBD.setEstado(empleado.getEstado());
-			empleadoBD.setNombres(empleado.getNombres());
-			empleadoBD.setUrl_foto(empleado.getUrl_foto());
-			empleadoBD.setDescripcion(empleado.getDescripcion());
-			empleadoBD.setCorreo(empleado.getCorreo());
-			empleadoBD.setTelefono(empleado.getTelefono());
-			service.update(empleadoBD);
-			return new ResponseEntity<>("¡Empleado editado!", HttpStatus.OK);
+			if (empleado.getApellidos() != null && empleado.getApellidos().length() <= 200) {
+				if (empleado.getCorreo() != null && empleado.getCorreo().length() <= 300) {
+					if (empleado.getDescripcion() == null || empleado.getDescripcion().length() <= 2000) {
+						if (empleado.getNombres() != null && empleado.getNombres().length() <= 200) {
+							if (empleado.getTelefono() != null && empleado.getTelefono().length() <= 50) {
+								if (empleado.getUrl_foto() == null || empleado.getUrl_foto().length() <= 1000) {
+									Empleado empleadoDelCorreo = service.findByCorreo(empleado.getCorreo());
+									if (empleadoDelCorreo == null || empleadoDelCorreo.getId_empleado() == id_empleado) {
+										Empleado empleadoDelTelefono = service.findByTelefono(empleado.getTelefono());
+										if (empleadoDelTelefono == null || empleadoDelTelefono.getId_empleado() == id_empleado) {
+											empleado.setEstado(empleadoBD.getEstado());
+											empleado.setId_empleado(id_empleado);
+											service.save(empleado);
+											return new ResponseEntity<>("Empleado editado.", HttpStatus.OK);
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			return new ResponseEntity<>("Solicitud incorrecta.", HttpStatus.BAD_REQUEST);
 		}
-		return new ResponseEntity<>("¡No existe el empleado " + id_empleado + "!", HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>("Empleado no encontrado.", HttpStatus.NOT_FOUND);
 	}
-	
+	/*
 	@DeleteMapping("/borrar/{id_empleado}")
 	public ResponseEntity<?> borrar_DELETE(@PathVariable Integer id_empleado) {
-		Empleado empleadoBD = service.findById(id_empleado);
-		if (empleadoBD != null) {		
+		Empleado empleado = service.findById(id_empleado);
+		if (empleado != null) {		
 			service.delete(id_empleado);
-			return new ResponseEntity<>("¡Empleado borrado!", HttpStatus.OK);
+			return new ResponseEntity<>("Empleado borrado.", HttpStatus.OK);
 		}
-		return new ResponseEntity<>("¡No existe el empleado " + id_empleado + "!", HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>("Empleado no encontrado.", HttpStatus.NOT_FOUND);
 	}
-
+	*/
 	//
 	
 	@GetMapping("/listarEmpleadosDisponibles")
@@ -86,6 +119,16 @@ public class EmpleadoRestController {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<>(empleados, HttpStatus.OK);
+	}
+
+	@PutMapping("/inhabilitar/{id_empleado}")
+	public ResponseEntity<?> inhabilitar_PUT(@PathVariable Integer id_empleado) {
+		Empleado empleado = service.findById(id_empleado);
+		if (empleado != null) {		
+			service.disable(id_empleado);
+			return new ResponseEntity<>("Empleado inhabilitado/habilitado.", HttpStatus.OK);
+		}
+		return new ResponseEntity<>("Empleado no encontrado.", HttpStatus.NOT_FOUND);
 	}
 
 }
