@@ -39,12 +39,13 @@ public class InstalacionRestController {
 	public ResponseEntity<?> registrar_POST(@RequestBody Instalacion instalacion) {
 		if (instalacion.getColor() == null || instalacion.getColor().length() == 7) {
 			if (instalacion.getDescripcion() == null || instalacion.getDescripcion().length() <= 2000) {
-				if (instalacion.getRotulo() != null && instalacion.getRotulo().length() <= 100) {
-					if (service.findByRotulo(instalacion.getRotulo()) == null) {
-						instalacion.setEstado(false);
-						instalacion.setId_instalacion(null);
-						service.save(instalacion);
-						return new ResponseEntity<>("Instalación registrada.", HttpStatus.CREATED);
+				if (instalacion.getEstado() != null) {
+					if (instalacion.getRotulo() != null && instalacion.getRotulo().length() <= 100) {
+						if (service.findByRotulo(instalacion.getRotulo()) == null) {
+							instalacion.setId_instalacion(null);
+							service.save(instalacion);
+							return new ResponseEntity<>("Instalación registrada.", HttpStatus.CREATED);
+						}
 					}
 				}
 			}

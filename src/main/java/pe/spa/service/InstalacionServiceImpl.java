@@ -1,6 +1,7 @@
 package pe.spa.service;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,6 +47,12 @@ public class InstalacionServiceImpl implements InstalacionService {
 	@Transactional(readOnly=true)
 	public Collection<Instalacion> findAvailableFacilities() {
 		return repository.findAvailableFacilities();
+	}
+
+	@Override
+	@Transactional(readOnly=true)
+	public List<Integer> findAvailableFacilitiesId() {
+		return repository.findAvailableFacilitiesId();
 	}
 
 	@Override

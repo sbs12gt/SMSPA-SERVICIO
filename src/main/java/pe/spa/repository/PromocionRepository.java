@@ -17,8 +17,7 @@ public interface PromocionRepository extends JpaRepository<Promocion, Integer> {
 		+ " AND :fechaReserva BETWEEN fecha_inicio AND fecha_fin", nativeQuery=true)
 	public abstract Promocion findApplicablePromotion(Integer id_promocion, LocalDate fechaReserva);
 
-	@Query(value="SELECT * FROM promociones WHERE estado = true AND fecha_fin >= CURRENT_TIMESTAMP"
-		+ " ORDER BY fecha_fin DESC", nativeQuery=true)
+	@Query(value="SELECT * FROM promociones WHERE estado = true ORDER BY fecha_fin DESC", nativeQuery=true)
 	public abstract List<Promocion> findAvailablePromotions();
 
 	@Query(value="SELECT * FROM promociones WHERE tipo = :tipo ORDER BY estado DESC, fecha_fin DESC", nativeQuery=true)

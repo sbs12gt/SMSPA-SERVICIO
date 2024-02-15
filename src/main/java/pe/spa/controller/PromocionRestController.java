@@ -46,19 +46,20 @@ public class PromocionRestController {
 	public ResponseEntity<?> registrar_POST(@RequestBody Promocion promocion) {
 		if (promocion.getDescripcion() == null || promocion.getDescripcion().length() <= 3000) {
 			if (promocion.getDescuento() != null) {
-				if (promocion.getFecha_fin() != null) {
-					if (promocion.getFecha_inicio() != null) {
-						if (promocion.getFecha_inicio().isBefore(promocion.getFecha_fin())) {
-							if (promocion.getTipo() != null) {
-								if (promocion.getTitulo() != null && promocion.getTitulo().length() <= 500) {
-									if (promocion.getUrl_imagen() == null
-											|| promocion.getUrl_imagen().length() <= 1000) {
-										if (service.findByTitulo(promocion.getTitulo()) == null) {
-											promocion.setEstado(false);
-											promocion.setId_promocion(null);
-											service.save(promocion);
-											return new ResponseEntity<>("Promoción registrada.",
-													HttpStatus.CREATED);
+				if (promocion.getEstado() != null) {
+					if (promocion.getFecha_fin() != null) {
+						if (promocion.getFecha_inicio() != null) {
+							if (promocion.getFecha_inicio().isBefore(promocion.getFecha_fin())) {
+								if (promocion.getTipo() != null) {
+									if (promocion.getTitulo() != null && promocion.getTitulo().length() <= 500) {
+										if (promocion.getUrl_imagen() == null
+												|| promocion.getUrl_imagen().length() <= 1000) {
+											if (service.findByTitulo(promocion.getTitulo()) == null) {
+												promocion.setId_promocion(null);
+												service.save(promocion);
+												return new ResponseEntity<>("Promoción registrada.",
+														HttpStatus.CREATED);
+											}
 										}
 									}
 								}
@@ -178,5 +179,17 @@ public class PromocionRestController {
 		}
 		return new ResponseEntity<>("Promoción no encontrada.", HttpStatus.NOT_FOUND);
 	}
+
+	@PutMapping("/actualizarEstadoPromociones")
+	public ResponseEntity<?> actualizarEstadoPromociones_PUT() {
+        LocalDate fechaActual = LocalDate.now();
+        Collection<Promocion> promociones = service.findAvailablePromotions();
+        for (Promocion promocion : promociones) {
+            if (promocion.getFecha_fin().isBefore(fechaActual)) {
+                service.disable(promocion.getId_promocion());
+            }
+        }
+		return new ResponseEntity<>(HttpStatus.OK);
+    }
 
 }

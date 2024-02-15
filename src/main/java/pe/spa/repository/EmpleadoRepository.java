@@ -12,6 +12,9 @@ public interface EmpleadoRepository extends JpaRepository<Empleado, Integer> {
 	@Query(value="SELECT * FROM empleados ORDER BY estado DESC, apellidos, nombres", nativeQuery=true)
 	public abstract List<Empleado> findAll();
 
+	@Query(value="SELECT id_empleado FROM empleados WHERE estado = true", nativeQuery=true)
+	public abstract List<Integer> findAvailableWorkersId();
+
 	@Query(value="SELECT * FROM empleados WHERE estado = true ORDER BY apellidos, nombres", nativeQuery=true)
 	public abstract List<Empleado> findAvailableWorkers();
 

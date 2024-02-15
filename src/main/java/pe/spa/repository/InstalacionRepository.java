@@ -15,6 +15,9 @@ public interface InstalacionRepository extends JpaRepository<Instalacion, Intege
 	@Query(value="SELECT * FROM instalaciones WHERE estado = true ORDER BY rotulo", nativeQuery=true)
 	public abstract List<Instalacion> findAvailableFacilities();
 
+	@Query(value="SELECT id_instalacion FROM instalaciones WHERE estado = true", nativeQuery=true)
+	public abstract List<Integer> findAvailableFacilitiesId();
+
 	public abstract Instalacion findByRotulo(String rotulo);
 
 }

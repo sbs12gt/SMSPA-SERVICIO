@@ -1,6 +1,7 @@
 package pe.spa.service;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,7 @@ import pe.spa.repository.ReservaRepository;
 
 @Service
 public class ReservaServiceImpl implements ReservaService {
-	
+
 	@Autowired
 	private ReservaRepository repository;
 
@@ -21,13 +22,13 @@ public class ReservaServiceImpl implements ReservaService {
 	public void delete(Integer id_reserva) {
 		repository.deleteById(id_reserva);
 	}
-
+	/*
 	@Override
 	@Transactional(readOnly=true)
 	public Collection<Reserva> findAll() {
 		return repository.findAll();
 	}
-
+	*/
 	@Override
 	@Transactional(readOnly=true)
 	public Reserva findById(Integer id_reserva) {
@@ -41,6 +42,24 @@ public class ReservaServiceImpl implements ReservaService {
 	}
 
 	//
+
+	@Override
+	@Transactional(readOnly=true)
+	public Integer findReservationsCountByWorker(LocalDate fecha, Integer id_empleado) {
+		return repository.findReservationsCountByWorker(fecha, id_empleado);
+	}
+
+	@Override
+	@Transactional(readOnly=true)
+	public Integer findReservationsCountByFacility(LocalDate fecha, Integer id_instalacion) {
+		return repository.findReservationsCountByWorker(fecha, id_instalacion);
+	}
+
+	@Override
+	@Transactional(readOnly=true)
+	public Collection<Reserva> findReservationsMadeByFechaAndHora(LocalDate fecha, LocalTime hora, LocalTime hora_fin) {
+		return repository.findReservationsMadeByFechaAndHora(fecha, hora, hora_fin);
+	}
 
 	@Override
 	@Transactional(readOnly=true)

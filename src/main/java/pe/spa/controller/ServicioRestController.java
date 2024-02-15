@@ -46,15 +46,16 @@ public class ServicioRestController {
 		if (servicio.getCategoria() != null && servicio.getCategoria().length() <= 100) {
 			if (servicio.getDescripcion() == null || servicio.getDescripcion().length() <= 2000) {
 				if (servicio.getDuracion() != null) {
-					if (servicio.getNombre() != null && servicio.getNombre().length() <= 200) {
-						if (servicio.getPrecio() != null && servicio.getPrecio().toString().matches("\\d{1,5}\\.\\d{2}")) {
-							if (servicio.getUrl_imagen() == null || servicio.getUrl_imagen().length() <= 1000) {
-								if (service.findByNombre(servicio.getNombre()) == null) {
-									servicio.setEstado(false);
-									servicio.setFavorito(false);
-									servicio.setId_servicio(null);
-									service.save(servicio);
-									return new ResponseEntity<>("Servicio registrado.", HttpStatus.CREATED);
+					if (servicio.getEstado() != null) {
+						if (servicio.getNombre() != null && servicio.getNombre().length() <= 200) {
+							if (servicio.getPrecio() != null && servicio.getPrecio().toString().matches("\\d{1,5}\\.\\d{2}")) {
+								if (servicio.getUrl_imagen() == null || servicio.getUrl_imagen().length() <= 1000) {
+									if (service.findByNombre(servicio.getNombre()) == null) {
+										servicio.setFavorito(false);
+										servicio.setId_servicio(null);
+										service.save(servicio);
+										return new ResponseEntity<>("Servicio registrado.", HttpStatus.CREATED);
+									}
 								}
 							}
 						}

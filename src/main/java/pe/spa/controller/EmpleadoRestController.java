@@ -40,15 +40,16 @@ public class EmpleadoRestController {
 		if (empleado.getApellidos() != null && empleado.getApellidos().length() <= 200) {
 			if (empleado.getCorreo() != null && empleado.getCorreo().length() <= 300) {
 				if (empleado.getDescripcion() == null || empleado.getDescripcion().length() <= 2000) {
-					if (empleado.getNombres() != null && empleado.getNombres().length() <= 200) {
-						if (empleado.getTelefono() != null && empleado.getTelefono().length() <= 50) {
-							if (empleado.getUrl_foto() == null || empleado.getUrl_foto().length() <= 1000) {
-								if (service.findByCorreo(empleado.getCorreo()) == null) {
-									if (service.findByTelefono(empleado.getTelefono()) == null) {
-										empleado.setEstado(false);
-										empleado.setId_empleado(null);
-										service.save(empleado);
-										return new ResponseEntity<>("Empleado registrado.", HttpStatus.CREATED);
+					if (empleado.getEstado() != null) {
+						if (empleado.getNombres() != null && empleado.getNombres().length() <= 200) {
+							if (empleado.getTelefono() != null && empleado.getTelefono().length() <= 50) {
+								if (empleado.getUrl_foto() == null || empleado.getUrl_foto().length() <= 1000) {
+									if (service.findByCorreo(empleado.getCorreo()) == null) {
+										if (service.findByTelefono(empleado.getTelefono()) == null) {
+											empleado.setId_empleado(null);
+											service.save(empleado);
+											return new ResponseEntity<>("Empleado registrado.", HttpStatus.CREATED);
+										}
 									}
 								}
 							}
