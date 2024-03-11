@@ -132,14 +132,18 @@ public class PromocionRestController {
 	@GetMapping("/buscarPromocionAplicable")
 	public ResponseEntity<?> buscarPromocionAplicable_GET(@RequestParam Integer id_servicio, @RequestParam LocalDate fechaReserva) {
 		Servicio servicio = servicioService.findById(id_servicio);
-		if (servicio != null) {
-			Promocion promocion = service.findApplicablePromotion(id_servicio, fechaReserva);
-			if (promocion == null) {
-				return new ResponseEntity<>("Promoción no encontrada.", HttpStatus.NOT_FOUND);
-			}
-			return new ResponseEntity<>(promocion, HttpStatus.OK);
+		if (servicio == null) {
+			return new ResponseEntity<>("Servicio no encontrado." + 
+			" El servicio se ha eliminado.", HttpStatus.CONFLICT);
+		} else if (servicio.getEstado() == false) {
+			return new ResponseEntity<>("Servicio inhabilitado." + 
+			" El servicio ha sido inhabilitado", HttpStatus.CONFLICT);
 		}
-		return new ResponseEntity<>("Servicio no encontrado", HttpStatus.NOT_FOUND);
+		Promocion promocion = service.findApplicablePromotion(id_servicio, fechaReserva);
+		if (promocion == null) {
+			return new ResponseEntity<>("Promoción no encontrada.", HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<>(promocion, HttpStatus.OK);
 	}
 	 
 	@GetMapping("/listarPromocionesDisponibles")

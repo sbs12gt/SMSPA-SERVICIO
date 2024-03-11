@@ -16,11 +16,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import pe.spa.entity.Empleado;
 import pe.spa.entity.Instalacion;
 import pe.spa.entity.Reserva;
+import pe.spa.entity.Servicio;
 import pe.spa.service.EmpleadoService;
 import pe.spa.service.InstalacionService;
 import pe.spa.service.PromocionService;
@@ -29,9 +31,9 @@ import pe.spa.service.ServicioService;
 
 @RestController
 @RequestMapping("/reservas")
-@CrossOrigin(origins="*")
+@CrossOrigin(origins = "*")
 public class ReservaRestController {
-	
+
 	@Autowired
 	private EmpleadoService empleadoService;
 	@Autowired
@@ -42,7 +44,7 @@ public class ReservaRestController {
 	private ReservaService service;
 	@Autowired
 	private ServicioService servicioService;
-	
+
 	@PostMapping("/registrar")
 	public ResponseEntity<?> registrar_POST(@RequestBody Reserva reserva) {
 		if (reserva.getApellidos_cliente() != null && reserva.getApellidos_cliente().length() <= 200) {
@@ -51,18 +53,23 @@ public class ReservaRestController {
 					if (reserva.getFecha() != null) {
 						if (reserva.getHora() != null) {
 							if (!reserva.getFecha().isBefore(LocalDate.now())) {
-								if (reserva.getNombres_cliente() != null && reserva.getNombres_cliente().length() <= 200) {
-									if (reserva.getTelefono_cliente() != null && reserva.getTelefono_cliente().length() <= 50) {
+								if (reserva.getNombres_cliente() != null
+										&& reserva.getNombres_cliente().length() <= 200) {
+									if (reserva.getTelefono_cliente() != null
+											&& reserva.getTelefono_cliente().length() <= 50) {
 										if (reserva.getId_promocion() != null) {
 											Integer id_promocion = reserva.getId_promocion().getId_promocion();
-											if (id_promocion == null || promocionService.findById(id_promocion) == null) {
-												return new ResponseEntity<>("Solicitud incorrecta.", HttpStatus.BAD_REQUEST);	
+											if (id_promocion == null
+													|| promocionService.findById(id_promocion) == null) {
+												return new ResponseEntity<>("Solicitud incorrecta.",
+														HttpStatus.BAD_REQUEST);
 											}
 										}
 										if (reserva.getId_servicio() != null) {
 											Integer id_servicio = reserva.getId_servicio().getId_servicio();
 											if (id_servicio == null || servicioService.findById(id_servicio) == null) {
-												return new ResponseEntity<>("Solicitud incorrecta.", HttpStatus.BAD_REQUEST);
+												return new ResponseEntity<>("Solicitud incorrecta.",
+														HttpStatus.BAD_REQUEST);
 											}
 											LocalDate fecha = reserva.getFecha();
 											LocalTime hora = reserva.getHora();
@@ -70,19 +77,25 @@ public class ReservaRestController {
 											LocalTime hora_fin = hora.plusMinutes(duracion);
 											// VER SI HAY EMPLEADOS O INSTALACIONES DISPONIBLES EN ESE HORARIO
 											Collection<Reserva> reservasRealizadas;
-											reservasRealizadas = service.findReservationsMadeByFechaAndHora(fecha, hora, hora_fin);
+											reservasRealizadas = service.findReservationsMadeByFechaAndHora(fecha, hora,
+													hora_fin);
 											List<Integer> empleados = empleadoService.findAvailableWorkersId();
-											List<Integer> instalaciones = instalacionService.findAvailableFacilitiesId();
+											List<Integer> instalaciones = instalacionService
+													.findAvailableFacilitiesId();
 											for (Reserva reservaRealizada : reservasRealizadas) {
-												empleados.remove((Object) reservaRealizada.getId_empleado().getId_empleado());	
-												instalaciones.remove((Object) reservaRealizada.getId_instalacion().getId_instalacion());
+												empleados.remove(
+														(Object) reservaRealizada.getId_empleado().getId_empleado());
+												instalaciones.remove((Object) reservaRealizada.getId_instalacion()
+														.getId_instalacion());
 											}
 											// DECIDIR EL EMPLEADO O INSTALACIÓN CON MENOS CARGA DE TRABAJO DEL DÍA
-											if (empleados != null && !empleados.isEmpty() && instalaciones != null && !instalaciones.isEmpty()) {
+											if (empleados != null && !empleados.isEmpty() && instalaciones != null
+													&& !instalaciones.isEmpty()) {
 												int menor_empleados = Integer.MAX_VALUE;
 												int id_menor_empleados = 0;
 												for (Integer id_empleado : empleados) {
-													Integer conteo_empleado = service.findReservationsCountByWorker(fecha, id_empleado);
+													Integer conteo_empleado = service
+															.findReservationsCountByWorker(fecha, id_empleado);
 													if (conteo_empleado == null) {
 														conteo_empleado = 0;
 													}
@@ -95,7 +108,8 @@ public class ReservaRestController {
 												int menor_instalaciones = Integer.MAX_VALUE;
 												int id_menor_instalaciones = 0;
 												for (Integer id_instalacion : instalaciones) {
-													Integer conteo_instalacion = service.findReservationsCountByFacility(fecha, id_instalacion);
+													Integer conteo_instalacion = service
+															.findReservationsCountByFacility(fecha, id_instalacion);
 													if (conteo_instalacion == null) {
 														conteo_instalacion = 0;
 													}
@@ -104,7 +118,8 @@ public class ReservaRestController {
 														id_menor_instalaciones = id_instalacion;
 													}
 												}
-												Instalacion instalacion = instalacionService.findById(id_menor_instalaciones);
+												Instalacion instalacion = instalacionService
+														.findById(id_menor_instalaciones);
 												reserva.setHora_fin(hora_fin);
 												reserva.setId_empleado(empleado);
 												reserva.setId_instalacion(instalacion);
@@ -129,12 +144,12 @@ public class ReservaRestController {
 	@GetMapping("/buscar/{id_reserva}")
 	public ResponseEntity<?> buscar_GET(@PathVariable Integer id_reserva) {
 		Reserva reserva = service.findById(id_reserva);
-	    if (reserva == null) {
-	    	return new ResponseEntity<>("Reserva no encontrada", HttpStatus.NOT_FOUND);
-	    }
-	    return new ResponseEntity<>(reserva, HttpStatus.OK);
+		if (reserva == null) {
+			return new ResponseEntity<>("Reserva no encontrada", HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<>(reserva, HttpStatus.OK);
 	}
-	
+
 	@PutMapping("/editar/{id_reserva}")
 	public ResponseEntity<?> editar_PUT(@RequestBody Reserva reserva, @PathVariable Integer id_reserva) {
 		Reserva reservaBD = service.findById(id_reserva);
@@ -145,47 +160,64 @@ public class ReservaRestController {
 						if (reserva.getFecha() != null) {
 							if (reserva.getHora() != null) {
 								if (!reserva.getFecha().isBefore(LocalDate.now())) {
-									if (reserva.getNombres_cliente() != null && reserva.getNombres_cliente().length() <= 200) {
-										if (reserva.getTelefono_cliente() != null && reserva.getTelefono_cliente().length() <= 50) {
+									if (reserva.getNombres_cliente() != null
+											&& reserva.getNombres_cliente().length() <= 200) {
+										if (reserva.getTelefono_cliente() != null
+												&& reserva.getTelefono_cliente().length() <= 50) {
 											if (reserva.getId_promocion() != null) {
 												Integer id_promocion = reserva.getId_promocion().getId_promocion();
-												if (id_promocion == null || promocionService.findById(id_promocion) == null) {
-													return new ResponseEntity<>("Solicitud incorrecta.", HttpStatus.BAD_REQUEST);	
+												if (id_promocion == null
+														|| promocionService.findById(id_promocion) == null) {
+													return new ResponseEntity<>("Solicitud incorrecta.",
+															HttpStatus.BAD_REQUEST);
 												}
 											}
 											if (reserva.getId_servicio() != null) {
 												Integer id_servicio = reserva.getId_servicio().getId_servicio();
-												if (id_servicio == null || servicioService.findById(id_servicio) == null) {
-													return new ResponseEntity<>("Solicitud incorrecta.", HttpStatus.BAD_REQUEST);
+												if (id_servicio == null
+														|| servicioService.findById(id_servicio) == null) {
+													return new ResponseEntity<>("Solicitud incorrecta.",
+															HttpStatus.BAD_REQUEST);
 												}
 												LocalDate fecha = reserva.getFecha();
 												LocalTime hora = reserva.getHora();
 												Short duracion = servicioService.findById(id_servicio).getDuracion();
 												LocalTime hora_fin = hora.plusMinutes(duracion);
 												// VER SI HAY EMPLEADOS O INSTALACIONES DISPONIBLES EN ESE HORARIO
-												if (fecha.isEqual(reservaBD.getFecha()) && !hora.isBefore(reservaBD.getHora()) && !hora_fin.isAfter(reservaBD.getHora_fin())) {
+												if (fecha.isEqual(reservaBD.getFecha())
+														&& !hora.isBefore(reservaBD.getHora())
+														&& !hora_fin.isAfter(reservaBD.getHora_fin())) {
 													reserva.setId_empleado(reservaBD.getId_empleado());
 													reserva.setId_instalacion(reservaBD.getId_instalacion());
 												} else {
 													Collection<Reserva> reservasRealizadas;
-													reservasRealizadas = service.findReservationsMadeByFechaAndHora(fecha, hora, hora_fin);
+													reservasRealizadas = service
+															.findReservationsMadeByFechaAndHora(fecha, hora, hora_fin);
 													List<Integer> empleados = empleadoService.findAvailableWorkersId();
-													List<Integer> instalaciones = instalacionService.findAvailableFacilitiesId();
+													List<Integer> instalaciones = instalacionService
+															.findAvailableFacilitiesId();
 													for (Reserva reservaRealizada : reservasRealizadas) {
 														if (reservaRealizada.getId_reserva() != id_reserva) {
-															empleados.remove((Object) reservaRealizada.getId_empleado().getId_empleado());	
-															instalaciones.remove((Object) reservaRealizada.getId_instalacion().getId_instalacion());
+															empleados.remove((Object) reservaRealizada.getId_empleado()
+																	.getId_empleado());
+															instalaciones.remove((Object) reservaRealizada
+																	.getId_instalacion().getId_instalacion());
 														}
 													}
-													// DECIDIR EL EMPLEADO O INSTALACIÓN CON MENOS CARGA DE TRABAJO DEL DÍA
-													if (empleados != null && !empleados.isEmpty() && instalaciones != null && !instalaciones.isEmpty()) {
+													// DECIDIR EL EMPLEADO O INSTALACIÓN CON MENOS CARGA DE TRABAJO DEL
+													// DÍA
+													if (empleados != null && !empleados.isEmpty()
+															&& instalaciones != null && !instalaciones.isEmpty()) {
 														int menor_empleados = Integer.MAX_VALUE;
 														int id_menor_empleados = 0;
 														for (Integer id_empleado : empleados) {
-															Integer conteo_empleado = service.findReservationsCountByWorker(fecha, id_empleado);
+															Integer conteo_empleado = service
+																	.findReservationsCountByWorker(fecha, id_empleado);
 															if (conteo_empleado == null) {
 																conteo_empleado = 0;
-															} else if (fecha == reservaBD.getFecha() && id_empleado == reservaBD.getId_empleado().getId_empleado()) {
+															} else if (fecha == reservaBD.getFecha()
+																	&& id_empleado == reservaBD.getId_empleado()
+																			.getId_empleado()) {
 																conteo_empleado--;
 															}
 															if (menor_empleados > conteo_empleado) {
@@ -193,14 +225,19 @@ public class ReservaRestController {
 																id_menor_empleados = id_empleado;
 															}
 														}
-														Empleado empleado = empleadoService.findById(id_menor_empleados);
+														Empleado empleado = empleadoService
+																.findById(id_menor_empleados);
 														int menor_instalaciones = Integer.MAX_VALUE;
 														int id_menor_instalaciones = 0;
 														for (Integer id_instalacion : instalaciones) {
-															Integer conteo_instalacion = service.findReservationsCountByFacility(fecha, id_instalacion);
+															Integer conteo_instalacion = service
+																	.findReservationsCountByFacility(fecha,
+																			id_instalacion);
 															if (conteo_instalacion == null) {
 																conteo_instalacion = 0;
-															} else if (fecha == reservaBD.getFecha() && id_instalacion == reservaBD.getId_instalacion().getId_instalacion()) {
+															} else if (fecha == reservaBD.getFecha()
+																	&& id_instalacion == reservaBD.getId_instalacion()
+																			.getId_instalacion()) {
 																conteo_instalacion--;
 															}
 															if (menor_instalaciones > conteo_instalacion) {
@@ -208,11 +245,13 @@ public class ReservaRestController {
 																id_menor_instalaciones = id_instalacion;
 															}
 														}
-														Instalacion instalacion = instalacionService.findById(id_menor_instalaciones);
+														Instalacion instalacion = instalacionService
+																.findById(id_menor_instalaciones);
 														reserva.setId_empleado(empleado);
 														reserva.setId_instalacion(instalacion);
 													} else {
-														return new ResponseEntity<>("Horario lleno.", HttpStatus.CONFLICT);
+														return new ResponseEntity<>("Horario lleno.",
+																HttpStatus.CONFLICT);
 													}
 												}
 												reserva.setHora_fin(hora_fin);
@@ -232,11 +271,11 @@ public class ReservaRestController {
 		}
 		return new ResponseEntity<>("Reserva no encontrada", HttpStatus.NOT_FOUND);
 	}
-	
+
 	@DeleteMapping("/borrar/{id_reserva}")
 	public ResponseEntity<?> borrar_DELETE(@PathVariable Integer id_reserva) {
 		Reserva reservaBD = service.findById(id_reserva);
-		if (reservaBD != null) {		
+		if (reservaBD != null) {
 			service.delete(id_reserva);
 			return new ResponseEntity<>("Reserva borrada.", HttpStatus.OK);
 		}
@@ -244,14 +283,61 @@ public class ReservaRestController {
 	}
 
 	//
-	
+
+	@GetMapping("/verificarReservaDisponible")
+	public ResponseEntity<?> verificarReservaDisponible_GET(@RequestParam Integer id_servicio,
+			@RequestParam LocalDate fecha, @RequestParam LocalTime hora) {
+		Servicio servicio = servicioService.findById(id_servicio);
+		if (servicio == null) {
+			return new ResponseEntity<>("Servicio no encontrado." + 
+			" El servicio se ha eliminado.", HttpStatus.CONFLICT);
+		} else if (servicio.getEstado() == false) {
+			return new ResponseEntity<>("Servicio inhabilitado." + 
+			" El servicio ha sido inhabilitado", HttpStatus.CONFLICT);
+		}
+		LocalDate hoy = LocalDate.now();
+		if (fecha.isBefore(hoy)) {
+			return new ResponseEntity<>("Fecha antes de " + hoy + 
+			". La fecha es pasada, es anterior a hoy.", HttpStatus.BAD_REQUEST);
+		} else if (fecha.isAfter(hoy.plusDays(15))) {
+			return new ResponseEntity<>("Fecha después de " + hoy.plusDays(15) +
+			". La fecha excede la fecha máxima de reservas del spa.", HttpStatus.BAD_REQUEST);
+		}
+		LocalTime ahorita = LocalTime.now().plusMinutes(45);
+		if (hora.isBefore(LocalTime.of(9, 30))) {
+			return new ResponseEntity<>("Hora antes de " + LocalTime.of(9, 30) +
+			". La hora es anterior a la hora de inicio de atención.", HttpStatus.BAD_REQUEST);
+		} else if (hora.isAfter(LocalTime.of(17, 15))) {
+			return new ResponseEntity<>("Hora después de " + LocalTime.of(17, 15) +
+			". La hora es posterior a la última hora de atención.", HttpStatus.BAD_REQUEST);
+		} else if (fecha.isEqual(hoy) && hora.isBefore(ahorita)) {
+			return new ResponseEntity<>("Hora antes de " + ahorita.truncatedTo(java.time.temporal.ChronoUnit.MINUTES) +
+			". Solo reservas 45 min después de la hora actual.", HttpStatus.BAD_REQUEST);
+		}
+		LocalTime hora_fin = hora.plusMinutes(servicio.getDuracion());
+		Collection<Reserva> reservasRealizadas;
+		reservasRealizadas = service.findReservationsMadeByFechaAndHora(fecha, hora, hora_fin);
+		List<Integer> empleados = empleadoService.findAvailableWorkersId();
+		List<Integer> instalaciones = instalacionService.findAvailableFacilitiesId();
+		for (Reserva reservaRealizada : reservasRealizadas) {
+			empleados.remove((Object) reservaRealizada.getId_empleado().getId_empleado());
+			instalaciones.remove((Object) reservaRealizada.getId_instalacion().getId_instalacion());
+		}
+		if (empleados != null && !empleados.isEmpty() && instalaciones != null && !instalaciones.isEmpty()) {
+			return new ResponseEntity<>("Todo bien.", HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>("Horario lleno." +
+			" Por favor, selecciona otro horario.", HttpStatus.CONFLICT);
+		}
+	}
+
 	@GetMapping("/listarReservasPasadasPorFecha/{fechaSeleccionada}")
 	public ResponseEntity<?> listarReservasPasadasPorFecha_GET(@PathVariable LocalDate fechaSeleccionada) {
 		Collection<Reserva> reservas = service.findPastOnesByFecha(fechaSeleccionada);
-	    if (reservas.isEmpty()) {
-	    	return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-	    }
-	    return new ResponseEntity<>(reservas, HttpStatus.OK);
+		if (reservas.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<>(reservas, HttpStatus.OK);
 	}
 
 	@GetMapping("/listarReservasPasadas/{lote}")
@@ -260,37 +346,37 @@ public class ReservaRestController {
 			return new ResponseEntity<>("Solicitud incorrecta.", HttpStatus.BAD_REQUEST);
 		}
 		Collection<Reserva> reservas = service.findPastReservations(lote);
-	    if (reservas.isEmpty()) {
-	    	return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-	    }
-	    return new ResponseEntity<>(reservas, HttpStatus.OK);
+		if (reservas.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<>(reservas, HttpStatus.OK);
 	}
 
 	@GetMapping("/listarReservasRecientesPorEmpleado/{id_empleado}")
 	public ResponseEntity<?> listarReservasRecientesPorEmpleado_GET(@PathVariable Integer id_empleado) {
 		Collection<Reserva> reservas = service.findRecentOnesByEmpleado(id_empleado);
-	    if (reservas.isEmpty()) {
-	    	return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-	    }
-	    return new ResponseEntity<>(reservas, HttpStatus.OK);
+		if (reservas.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<>(reservas, HttpStatus.OK);
 	}
 
 	@GetMapping("/listarReservasRecientesPorInstalacion/{id_instalacion}")
 	public ResponseEntity<?> listarReservasRecientesPorInstalacion_GET(@PathVariable Integer id_instalacion) {
 		Collection<Reserva> reservas = service.findRecentOnesByInstalacion(id_instalacion);
-	    if (reservas.isEmpty()) {
-	    	return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-	    }
-	    return new ResponseEntity<>(reservas, HttpStatus.OK);
+		if (reservas.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<>(reservas, HttpStatus.OK);
 	}
 
 	@GetMapping("/listarReservasRecientes")
 	public ResponseEntity<?> listarReservasRecientes_GET() {
 		Collection<Reserva> reservas = service.findRecentReservations();
-	    if (reservas.isEmpty()) {
-	    	return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-	    }
-	    return new ResponseEntity<>(reservas, HttpStatus.OK);
+		if (reservas.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<>(reservas, HttpStatus.OK);
 	}
 
 }
