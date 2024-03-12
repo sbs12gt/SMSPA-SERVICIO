@@ -46,27 +46,24 @@ public class PromocionRestController {
 	public ResponseEntity<?> registrar_POST(@RequestBody Promocion promocion) {
 		if (promocion.getDescripcion() == null || promocion.getDescripcion().length() <= 3000) {
 			if (promocion.getDescuento() != null) {
-				if (promocion.getEstado() != null) {
 					if (promocion.getFecha_fin() != null) {
 						if (promocion.getFecha_inicio() != null) {
 							if (promocion.getFecha_inicio().isBefore(promocion.getFecha_fin())) {
 								if (promocion.getTipo() != null) {
 									if (promocion.getTitulo() != null && promocion.getTitulo().length() <= 500) {
-										if (promocion.getUrl_imagen() == null
-												|| promocion.getUrl_imagen().length() <= 1000) {
 											if (service.findByTitulo(promocion.getTitulo()) == null) {
 												promocion.setId_promocion(null);
+												promocion.setEstado(false);
+												promocion.setUrl_imagen(null);
 												service.save(promocion);
 												return new ResponseEntity<>("Promoción registrada.",
 														HttpStatus.CREATED);
 											}
-										}
 									}
 								}
 							}
 						}
 					}
-				}
 			}
 		}
 		return new ResponseEntity<>("Solicitud incorrecta.", HttpStatus.BAD_REQUEST);
@@ -92,18 +89,16 @@ public class PromocionRestController {
 							if (promocion.getFecha_inicio().isBefore(promocion.getFecha_fin())) {
 								if (promocion.getTipo() != null) {
 									if (promocion.getTitulo() != null && promocion.getTitulo().length() <= 500) {
-										if (promocion.getUrl_imagen() == null
-												|| promocion.getUrl_imagen().length() <= 1000) {
 											Promocion promocionDelTitulo = service.findByTitulo(promocion.getTitulo());
 											if (promocionDelTitulo == null
 													|| promocionDelTitulo.getId_promocion() == id_promocion) {
 												promocion.setEstado(promocionBD.getEstado());
 												promocion.setId_promocion(id_promocion);
+												promocion.setUrl_imagen(promocionBD.getUrl_imagen());
 												service.save(promocion);
 												return new ResponseEntity<>("Promoción editada.",
 														HttpStatus.OK);
 											}
-										}
 									}
 								}
 							}

@@ -4,14 +4,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import pe.spa.entity.Perfil;
+import pe.spa.entity.PerfilAcceso;
 import pe.spa.service.PerfilService;
 
 @RestController
@@ -22,13 +23,15 @@ public class PerfilRestController {
 	@Autowired
 	private PerfilService service;
 
-	@GetMapping("/buscar/{id_perfil}")
-	public ResponseEntity<?> buscar_GET(@PathVariable Integer id_perfil) {
-		Perfil perfil = service.findById(id_perfil);
+	@PostMapping("/validarAcceso/{usuario}")
+	public ResponseEntity<?> validarAcceso_POST(@PathVariable PerfilAcceso usuario, @RequestBody String contrasena) {
+		Perfil perfil = service.findByUsuario(usuario);
 	    if (perfil == null) {
 	    	return new ResponseEntity<>("Perfil no encontrado.", HttpStatus.NOT_FOUND);
-	    }
-	    return new ResponseEntity<>(perfil, HttpStatus.OK);
+	    } else if (!perfil.getContrasena().equals(contrasena)) {
+			return new ResponseEntity<>("Contraseña incorrecta", HttpStatus.CONFLICT);
+		}
+	    return new ResponseEntity<>("Acceso permitido.", HttpStatus.OK);
 	}
 	
 	@PutMapping("/editar/{id_perfil}")

@@ -19,7 +19,8 @@ public interface ServicioService {
 	public abstract Servicio findByNombre(String nombre);
 	public abstract Collection<Servicio> findPopularServices();
 	public abstract void cleanPromocion(Integer id_servicio);
-	public abstract void disable(Integer id_promocion);
+	public abstract void disable(Integer id_servicio);
 	public abstract void savePromocion(Integer id_servicio, Integer id_promocion);
+	public abstract void favorite(Integer id_servicio);
 
 }

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import pe.spa.entity.Perfil;
+import pe.spa.entity.PerfilAcceso;
 import pe.spa.repository.PerfilRepository;
 
 @Service
@@ -37,6 +38,12 @@ public class PerfilServiceImpl implements PerfilService {
 	@Transactional
 	public void save(Perfil perfil) {
 		repository.save(perfil);	
+	}
+
+	@Override
+	@Transactional(readOnly=true)
+	public Perfil findByUsuario(PerfilAcceso usuario) {
+		return repository.findByUsuario(usuario);
 	}
 
 }

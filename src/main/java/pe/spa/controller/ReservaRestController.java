@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import pe.spa.entity.Empleado;
+import pe.spa.entity.EstadoReserva;
 import pe.spa.entity.Instalacion;
 import pe.spa.entity.Reserva;
 import pe.spa.entity.Servicio;
@@ -49,7 +50,6 @@ public class ReservaRestController {
 	public ResponseEntity<?> registrar_POST(@RequestBody Reserva reserva) {
 		if (reserva.getApellidos_cliente() != null && reserva.getApellidos_cliente().length() <= 200) {
 			if (reserva.getCorreo_cliente() != null && reserva.getCorreo_cliente().length() <= 300) {
-				if (reserva.getEstado() != null) {
 					if (reserva.getFecha() != null) {
 						if (reserva.getHora() != null) {
 							if (!reserva.getFecha().isBefore(LocalDate.now())) {
@@ -120,6 +120,9 @@ public class ReservaRestController {
 												}
 												Instalacion instalacion = instalacionService
 														.findById(id_menor_instalaciones);
+												if (reserva.getEstado() == null) {
+													reserva.setEstado(EstadoReserva.PAGADO);
+												}
 												reserva.setHora_fin(hora_fin);
 												reserva.setId_empleado(empleado);
 												reserva.setId_instalacion(instalacion);
@@ -135,7 +138,6 @@ public class ReservaRestController {
 							}
 						}
 					}
-				}
 			}
 		}
 		return new ResponseEntity<>("Solicitud incorrecta.", HttpStatus.BAD_REQUEST);

@@ -137,4 +137,18 @@ public class ServicioServiceImpl implements ServicioService {
 		}
 	}
 
+	@Override
+	@Transactional
+	public void favorite(Integer id_servicio) {
+		Servicio servicio = repository.findById(id_servicio).orElse(null);
+		if (servicio != null) {
+			if (!servicio.getFavorito()) {
+				servicio.setFavorito(true);
+			} else {
+				servicio.setFavorito(false);
+			}
+			repository.save(servicio);
+		}
+	}
+
 }
